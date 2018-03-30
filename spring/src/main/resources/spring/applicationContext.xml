@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        id: 在容器中为bean命名，唯一
+        class: 放入容器的bean的完全限定名
+        name: 在容器中为bean命名，唯一，支持逗号分隔的别名，例如userDao,userDao2
+        lazy-init: true 表示在调用getBean的时候再去创建bean的实例
+        scope:singleton bean在容器中为单例
+             :prototype bean在容器中为非单例
+    -->
+    <bean id="userDao" class="com.kaishengit.dao.UserDao"
+          scope="prototype" init-method="init" destroy-method="destroy"/>
+    <!--<bean name="userDao,userDao2" class="com.kaishengit.dao.UserDao"/>-->
+    <!--别名-->
+    <!--<alias name="userDao" alias="userDao2"/>-->
+
+
+</beans>
