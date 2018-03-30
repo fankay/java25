@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--1.bean管理-->
+    <bean id="studentDaoxxxx" class="com.kaishengit.dao.StudentDao"/>
+    <bean id="studentDao" class="com.kaishengit.dao.StudentDao"/>
+
+
+    <bean id="studentService" class="com.kaishengit.service.StudentService" autowire="constructor"/>
+
+
+
+
+
+
+
+
+
+
+
+    <!--<bean id="studentService" class="com.kaishengit.service.StudentService">-->
+        <!--
+            type: 构造方法参数的类型（不适用多个参数类型相同）
+            ref: 被注入bean在Spring容器中的ID
+        -->
+        <!--<constructor-arg type="com.kaishengit.dao.StudentDao"-->
+                         <!--ref="studentDao"/>-->
+        <!--<constructor-arg name="name" value="tom"/>-->
+        <!--
+            index: 构造方法参数的索引，从0开始
+            ref: 被注入bean在Spring容器中的ID
+        -->
+        <!--<constructor-arg index="0" ref="studentDao"/>-->
+
+        <!--
+            name: 构造方法参数的名称
+            ref: 被注入bean在Spring容器中的ID
+        -->
+        <!--<constructor-arg name="studentDao" ref="studentDao"/>-->
+    <!--</bean>-->
+
+
+
+
+
+
+    <!--<bean id="studentService" class="com.kaishengit.service.StudentService" p:studentDao-ref="studentDao">-->
+        <!--
+            name: 被注入属性的set方法名称去掉set，并首字母小写后的名称
+            ref: spring容器中被注入对象的id
+        -->
+        <!--<property name="studentDao" ref="studentDao"/>-->
+        <!--<property name="studentDao">
+            <ref bean="studentDao"/>
+        </property>-->
+        <!--<property name="studentDao">
+            <bean class="com.kaishengit.dao.StudentDao"/>
+        </property>-->
+    <!--</bean>-->
+
+    <!--<bean id="otherService" class="com.kaishengit.service.OtherServcie">
+        <property name="id" value="123"/>
+        <property name="name" value="Jack"/>
+        <property name="score" value="77.5"/>
+        <property name="nameList">
+            <list>
+                <value>abc</value>
+                <value>xyz</value>
+            </list>
+        </property>
+        <property name="numSet">
+            <set>
+                <value>12</value>
+                <value>23</value>
+            </set>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="abc" value-ref="studentDao"/>
+                <entry key="abcx" value-ref="studentDao"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="k1">v1</prop>
+                <prop key="k2">v2</prop>
+            </props>
+        </property>
+    </bean>-->
+
+
+</beans>
