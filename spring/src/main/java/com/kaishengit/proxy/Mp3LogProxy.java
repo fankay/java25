@@ -15,7 +15,8 @@ public class Mp3LogProxy implements Player {
         System.out.println("方法:play调用结束");
     }
 
-    public void stop() {
+    public int stop() {
         target.stop();
+        return 11;
     }
 }

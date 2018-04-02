@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--aop的通知类-->
+    <bean id="aopAdvice" class="com.kaishengit.aop.MyAdvice"/>
+    <bean id="mp3" class="com.kaishengit.proxy.Mp3"/>
+
+    <!--AOP配置-->
+    <aop:config>
+        <aop:aspect ref="aopAdvice">
+            <!--1. 切入点表达式-->
+            <aop:pointcut id="myPointcut" expression="execution(* com.kaishengit.proxy.Mp3.*(..))"/>
+            <!--2. 加入前置通知-->
+            <aop:before method="beforeAdvice" pointcut-ref="myPointcut"/>
+            <!--后置通知-->
+            <!--<aop:after-returning method="afterAdvice" pointcut-ref="myPointcut" returning="result"/>-->
+            <!--异常通知-->
+            <!--<aop:after-throwing method="exceptionAdvice" pointcut-ref="myPointcut" throwing="ex"/>-->
+            <!--最终通知-->
+            <!--<aop:after method="finallyAdvice" pointcut-ref="myPointcut"/>-->
+            <!--环绕通知-->
+            <!--<aop:around method="aroundAdvice" pointcut-ref="myPointcut"/>-->
+        </aop:aspect>
+    </aop:config>
+
+</beans>

@@ -14,7 +14,8 @@ public class Mp3AdProxy implements Player {
         target.play(musicName);
     }
 
-    public void stop() {
+    public int stop() {
         target.stop();
+        return 10;
     }
 }

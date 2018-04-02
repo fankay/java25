@@ -6,7 +6,8 @@ public class Mp3 implements Player {
         System.out.println("播放" + musicName);
     }
 
-    public void stop() {
+    public int stop() {
         System.out.println("停止播放");
+        return 10 / 2;
     }
 }
