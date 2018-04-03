@@ -47,6 +47,12 @@
             <artifactId>spring-jdbc</artifactId>
             <version>${spring-version}</version>
         </dependency>
+        <!--Spring 事务-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
 
 
         <!--JSR330-->
