@@ -16,4 +16,27 @@
     <!--开启基于注解的AOP-->
     <aop:aspectj-autoproxy/>
 
+    <!-- 0. 读取properties文件 -->
+    <context:property-placeholder location="classpath:config.properties"/>
+
+    <!-- 1. 创建数据库连接池 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="initialSize" value="${jdbc.initSize}"/>
+        <property name="maxTotal" value="${jdbc.maxSize}"/>
+        <property name="maxWaitMillis" value="${jdbc.maxWait}"/>
+    </bean>
+
+    <!-- 2. 创建JdbcTemplate -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg name="dataSource" ref="dataSource"/>
+    </bean>
+
 </beans>

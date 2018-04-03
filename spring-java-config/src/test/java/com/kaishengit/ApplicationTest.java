@@ -1,6 +1,7 @@
 package com.kaishengit;
 
 import com.kaishengit.dao.UserDao;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,11 @@ public class ApplicationTest {
         //ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Application.class);
         //UserDao userDao = (UserDao) applicationContext.getBean("userDao");
         userDao.save();
+
+        /*BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName("");
+        dataSource.setUrl("");
+        dataSource.setUsername();
+        dataSource.setPassword();*/
     }
 }
