@@ -18,6 +18,10 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @ComponentScan(basePackages = "com.kaishengit.controller")
 public class Application extends WebMvcConfigurerAdapter {
 
+    /**
+     * 视图适配器
+     * @return
+     */
     @Bean
     public ViewResolver viewResolver() {
         UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
@@ -27,6 +31,10 @@ public class Application extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
+    /**
+     * 静态资源的处理（中央控制器不拦截静态资源）
+     * @param configurer
+     */
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
