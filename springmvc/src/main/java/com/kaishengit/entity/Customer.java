@@ -14,6 +14,12 @@ public class Customer {
         this.address = address;
     }
 
+    public Customer(Integer id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+
     public Integer getId() {
         return id;
     }

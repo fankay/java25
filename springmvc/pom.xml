@@ -44,6 +44,12 @@
             <artifactId>spring-webmvc</artifactId>
             <version>4.3.14.RELEASE</version>
         </dependency>
+        <!--添加JSON依赖库：Jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -67,6 +73,7 @@
                 <configuration>
                     <port>8080</port>
                     <path>/</path>
+                    <uriEncoding>UTF-8</uriEncoding>
                 </configuration>
             </plugin>
         </plugins>
