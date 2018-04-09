@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html>
@@ -9,7 +10,13 @@
     <title></title>
 </head>
 <body>
-    <h3>Hello,SpringMVC</h3>
-    <img src="/static/img/1.jpg" alt="">
+    <c:if test="${not empty message}">
+        <div style="color:#f44">${message}</div>
+    </c:if>
+    <form method="post" enctype="multipart/form-data">
+        <input type="text" name="name"> <br>
+        <input type="file" name="photo"> <br>
+        <button>upload</button>
+    </form>
 </body>
 </html>

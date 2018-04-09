@@ -9,7 +9,6 @@
     <title></title>
 </head>
 <body>
-    <h3>Hello,SpringMVC</h3>
-    <img src="/static/img/1.jpg" alt="">
+    <h3>Sorry,Server Error!</h3>
 </body>
 </html>

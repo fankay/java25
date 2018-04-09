@@ -1,8 +1,10 @@
 package com.kaishengit.controller;
 
 import com.kaishengit.entity.Customer;
+import com.kaishengit.exception.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,9 +31,14 @@ public class CustomerController {
     }
 
     @GetMapping("/new")
-    public String newCustomer() {
+    public String newCustomer() throws IOException {
+        if(1==1) {
+            throw new IOException();
+        }
+        System.out.println("customer new controller.....");
         return "customer/new";
     }
+
 
     @PostMapping("/new")
     public String newCustomer(Customer customer,String level) {
@@ -47,8 +56,12 @@ public class CustomerController {
 
     @GetMapping("/{id:\\d+}")
     public String viewCustomer(@PathVariable(name = "id") Integer customerId,
-                               Model model) {
+                               Model model) throws IOException {
         System.out.println(">>>>>>>>>>>> view customer :" + customerId);
+
+        if(customerId.equals(1024)) {
+            throw new NotFoundException();
+        }
 
         model.addAttribute("customerId",customerId);
         return "customer/view";
