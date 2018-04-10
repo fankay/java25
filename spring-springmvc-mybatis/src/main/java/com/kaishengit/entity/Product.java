@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 
 public class Product {
 
+    /**
+     * 默认商品评论的数量
+     */
+    public static final Integer DEFAULT_COMMENT_NUM = 0;
+
     private Integer id;
     private String productName;
     private BigDecimal price;
@@ -11,6 +16,7 @@ public class Product {
     private String place;
     private Integer commentNum;
     private Integer typeId;
+    private ProductType productType;
 
     public Product() {
     }
@@ -88,6 +94,14 @@ public class Product {
 
     public void setTypeId(Integer typeId) {
         this.typeId = typeId;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
     }
 
     @Override
