@@ -34,6 +34,32 @@
         LEFT JOIN product_type ON product.type_id = product_type.id
         order by product.id desc
     </select>
+    <select id="findAllWithTypeByQueryParam" resultMap="productAndTypeMap">
+        SELECT
+            product.*, type_name,
+            parent_id
+        FROM
+            product
+            LEFT JOIN product_type ON product.type_id = product_type.id
+        <where>
+            <if test="productName != null and productName!= ''">
+                product.product_name like concat('%',#{productName},'%')
+            </if>
+            <if test="place != null and place != ''">
+                and product.place = #{place}
+            </if>
+            <if test="minPrice != null and minPrice != 0">
+                and product.price >= #{minPrice}
+            </if>
+            <if test="maxPrice != null and maxPrice != 0">
+                and product.price &lt;= #{maxPrice}
+            </if>
+            <if test="typeId != null and typeId != 0">
+                and product_type.id = #{typeId}
+            </if>
+        </where>
+        order by product.id desc
+    </select>
     <resultMap id="productAndTypeMap" type="Product">
         <id column="id" property="id"/>
         <result column="product_name" property="productName"/>

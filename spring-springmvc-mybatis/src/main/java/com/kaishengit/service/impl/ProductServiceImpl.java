@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -100,5 +101,20 @@ public class ProductServiceImpl implements ProductService {
     public void updateProduct(Product product) {
         productMapper.update(product);
         logger.info("修改商品 {}",product);
+    }
+
+    /**
+     * 根据当前页号和查询参数查询商品集合
+     *
+     * @param pageNo        当前页号
+     * @param queryParamMap 查询参数的Map
+     * @return 当前页对象
+     */
+    @Override
+    public PageInfo<Product> findAllProductByPageNoAndQueryParam(Integer pageNo, Map<String, Object> queryParamMap) {
+        PageHelper.startPage(pageNo,10);
+        List<Product> productList = productMapper.findAllWithTypeByQueryParam(queryParamMap);
+
+        return new PageInfo<>(productList);
     }
 }

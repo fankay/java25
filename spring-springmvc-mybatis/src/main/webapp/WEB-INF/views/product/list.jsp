@@ -13,6 +13,21 @@
 <body>
     <div class="container">
         <h3>商品列表</h3>
+        <div class="well-sm">
+            <form class="form-inline">
+                <input type="text" name="productName" class="form-control" placeholder="商品名称" value="${param.productName}">
+                <input type="text" name="place" class="form-control" placeholder="产地" value="${param.place}">
+                <input type="text" name="minPrice" class="form-control" placeholder="最低价格" value="${param.minPrice}">
+                <input type="text" name="maxPrice" class="form-control" placeholder="最高价格" value="${param.maxPrice}">
+                <select name="typeId" class="form-control">
+                    <option value="">所属分类</option>
+                    <c:forEach items="${typeList}" var="type">
+                        <option value="${type.id}" ${param.typeId == type.id ? 'selected' : ''}>${type.typeName}</option>
+                    </c:forEach>
+                </select>
+                <button class="btn btn-default">搜索</button>
+            </form>
+        </div>
         <c:if test="${not empty message}">
             <div class="alert alert-success">${message}</div>
         </c:if>
@@ -44,6 +59,7 @@
                 </c:forEach>
             </tbody>
         </table>
+        共${pageInfo.total}条数据
         <ul id="pagination-demo" class="pagination pull-right"></ul>
     </div>
     <script src="/static/js/jquery.min.js"></script>
@@ -51,6 +67,7 @@
     <script src="/static/js/jquery.twbsPagination.js"></script>
     <script>
         $(function () {
+            //console.log(encodeURIComponent('${param.productName}'));
             //分页
             $('#pagination-demo').twbsPagination({
                 totalPages: ${pageInfo.pages},
@@ -59,7 +76,8 @@
                 last:'末页',
                 prev:'←',
                 next:'→',
-                href:"?p={{number}}"
+                href:"?productName="+encodeURIComponent('${param.productName}')
+                     +"&place="+encodeURIComponent('${param.place}')+"&minPrice=${param.minPrice}&maxPrice=${param.maxPrice}&typeId=${param.typeId}&p={{number}}"
             });
 
             //删除

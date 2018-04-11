@@ -11,11 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/product")
@@ -26,10 +29,24 @@ public class ProductController {
 
     @GetMapping
     public String list(@RequestParam(defaultValue = "1",name = "p",required = false) Integer pageNo,
+                       @RequestParam(required = false) String productName,
+                       @RequestParam(required = false) String place,
+                       @RequestParam(required = false) Float minPrice,
+                       @RequestParam(required = false) Float maxPrice,
+                       @RequestParam(required = false) Integer typeId,
                        Model model) {
-        PageInfo<Product> pageInfo = productService.findAllProductByPageNo(pageNo);
+        //将搜索添加封装到Map集合中
+        Map<String,Object> queryParamMap = new HashMap<>();
+        queryParamMap.put("productName",productName);
+        queryParamMap.put("place",place);
+        queryParamMap.put("minPrice",minPrice);
+        queryParamMap.put("maxPrice",maxPrice);
+        queryParamMap.put("typeId",typeId);
+
+        PageInfo<Product> pageInfo = productService.findAllProductByPageNoAndQueryParam(pageNo,queryParamMap);
 
         model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("typeList",productService.findAllProductType());
         return "product/list";
     }
 
