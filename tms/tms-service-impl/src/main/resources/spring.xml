@@ -35,8 +35,8 @@
     <!--MyBatis SqlSessionFactoryBean-->
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="typeAliasesPackage" value="com.kaishengit.entity"/>
-        <!--<property name="mapperLocations" value="classpath:mapper/*.xml"/>-->
+        <property name="typeAliasesPackage" value="com.kaishengit.tms.entity"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
         <property name="configuration">
             <bean class="org.apache.ibatis.session.Configuration">
                 <property name="mapUnderscoreToCamelCase" value="true"/>
@@ -59,7 +59,7 @@
 
     <!--自动扫描mapper接口并生成实现类并放入spring容器-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.kaishengit.mapper"/>
+        <property name="basePackage" value="com.kaishengit.tms.mapper"/>
     </bean>
 
 
