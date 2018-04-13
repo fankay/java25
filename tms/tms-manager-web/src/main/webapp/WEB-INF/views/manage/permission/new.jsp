@@ -51,6 +51,10 @@
                             <input type="text" name="permissionCode" class="form-control">
                         </div>
                         <div class="form-group">
+                            <label>资源URL</label>
+                            <input type="text" name="url" class="form-control">
+                        </div>
+                        <div class="form-group">
                             <label>权限类型</label>
                             <select name="permissionType" class="form-control">
                                 <option value="菜单">菜单</option>

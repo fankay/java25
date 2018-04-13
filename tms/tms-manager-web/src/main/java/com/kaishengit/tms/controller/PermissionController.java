@@ -53,4 +53,6 @@ public class PermissionController {
         redirectAttributes.addFlashAttribute("message","新增权限成功");
         return "redirect:/manage/permission";
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.kaishengit.tms.service;
 
 import com.kaishengit.tms.entity.Permission;
+import com.kaishengit.tms.entity.Roles;
 
 import java.util.List;
 
@@ -29,4 +30,10 @@ public interface RolePermissionService {
      */
     List<Permission> findAllPermission();
 
+    /**
+     * 新增角色
+     * @param roles 角色对象
+     * @param permissionId 角色对应的权限ID列表
+     */
+    void saveRoles(Roles roles, Integer[] permissionId);
 }

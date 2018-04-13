@@ -8,8 +8,9 @@ import java.util.Date;
  */
 public class Permission implements Serializable {
 
-    public static final String  MENU_TYPE = "菜单";
-    public static final String  BUTTON_TYPE = "按钮";
+    public static final String MENU_TYPE = "菜单";
+    public static final String BUTTON_TYPE = "按钮";
+
 
     private Integer id;
 
@@ -42,6 +43,11 @@ public class Permission implements Serializable {
      * 修改时间
      */
     private Date updateTime;
+
+    /**
+     * 资源路径
+     */
+    private String url;
 
     private static final long serialVersionUID = 1L;
 
@@ -101,16 +107,11 @@ public class Permission implements Serializable {
         this.updateTime = updateTime;
     }
 
-    @Override
-    public String toString() {
-        return "Permission{" +
-                "id=" + id +
-                ", permissionName='" + permissionName + '\'' +
-                ", permissionCode='" + permissionCode + '\'' +
-                ", permissionType='" + permissionType + '\'' +
-                ", parentId=" + parentId +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

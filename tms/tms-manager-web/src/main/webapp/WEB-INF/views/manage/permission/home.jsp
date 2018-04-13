@@ -47,6 +47,7 @@
                         <tr>
                             <th>权限名称</th>
                             <th>权限代号</th>
+                            <th>资源URL</th>
                             <th>类型</th>
                             <th>#</th>
                         </tr>
@@ -58,6 +59,7 @@
                                     <tr class="treegrid-${permission.id} treegrid-expanded">
                                         <td>${permission.permissionName}</td>
                                         <td>${permission.permissionCode}</td>
+                                        <td>${permission.url}</td>
                                         <td>${permission.permissionType}</td>
                                         <td>
                                             <a href="">修改</a>
@@ -69,6 +71,7 @@
                                     <tr class="treegrid-${permission.id} treegrid-expanded treegrid-parent-${permission.parentId}">
                                         <td>${permission.permissionName}</td>
                                         <td>${permission.permissionCode}</td>
+                                        <td>${permission.url}</td>
                                         <td>${permission.permissionType}</td>
                                         <td>
                                             <a href="">修改</a>
