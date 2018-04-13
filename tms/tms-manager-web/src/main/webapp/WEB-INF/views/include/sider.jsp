@@ -11,7 +11,7 @@
             <li class="header">系统管理</li>
             <li><a href="/home"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>
             <li><a href="/home"><i class="fa fa-circle-o"></i> <span>角色管理</span></a></li>
-            <li><a href="/home"><i class="fa fa-circle-o"></i> <span>权限管理</span></a></li>
+            <li class="${param.menu == 'manage_permission' ? 'active' : ''}"><a href="/manage/permission"><i class="fa fa-circle-o"></i> <span>权限管理</span></a></li>
 
             <%--<!-- 普通菜单 -->
             <li class="treeview">
