@@ -6,7 +6,9 @@ import com.google.common.collect.Lists;
 import com.kaishengit.tms.entity.Permission;
 import com.kaishengit.tms.entity.PermissionExample;
 import com.kaishengit.tms.entity.Roles;
+import com.kaishengit.tms.entity.RolesPermissionExample;
 import com.kaishengit.tms.entity.RolesPermissionKey;
+import com.kaishengit.tms.exception.ServiceException;
 import com.kaishengit.tms.mapper.PermissionMapper;
 import com.kaishengit.tms.mapper.RolesMapper;
 import com.kaishengit.tms.mapper.RolesPermissionMapper;
@@ -97,6 +99,37 @@ public class RolePermissionServiceImpl implements RolePermissionService {
             rolesPermissionMapper.insert(rolesPermissionKey);
         }
         logger.info("保存角色 {}",roles);
+    }
+
+    /**
+     * 根据权限ID删除权限
+     *
+     * @param id
+     * @throws ServiceException 删除失败抛出此异常，例如权限已经被角色使用
+     */
+    @Override
+    public void delPermissionById(Integer id) throws ServiceException {
+        //查询该权限是否有子节点
+        PermissionExample permissionExample = new PermissionExample();
+        permissionExample.createCriteria().andParentIdEqualTo(id);
+
+        List<Permission> permissionList = permissionMapper.selectByExample(permissionExample);
+        if(permissionList != null && !permissionList.isEmpty()) {
+            throw new ServiceException("该权限下有子节点，删除失败");
+        }
+
+        //查询权限是否被角色使用
+        RolesPermissionExample rolesPermissionExample = new RolesPermissionExample();
+        rolesPermissionExample.createCriteria().andPermissionIdEqualTo(id);
+
+        List<RolesPermissionKey> rolesPermissionKeyList = rolesPermissionMapper.selectByExample(rolesPermissionExample);
+        if(rolesPermissionKeyList != null && !rolesPermissionKeyList.isEmpty()) {
+            throw new ServiceException("该权限被角色引用，删除失败");
+        }
+        //如果没有被使用，则可以直接删除
+        Permission permission = permissionMapper.selectByPrimaryKey(id);
+        permissionMapper.deleteByPrimaryKey(id);
+        logger.info("删除权限 {}",permission);
     }
 
     /**

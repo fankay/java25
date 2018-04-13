@@ -2,6 +2,7 @@ package com.kaishengit.tms.service;
 
 import com.kaishengit.tms.entity.Permission;
 import com.kaishengit.tms.entity.Roles;
+import com.kaishengit.tms.exception.ServiceException;
 
 import java.util.List;
 
@@ -36,4 +37,11 @@ public interface RolePermissionService {
      * @param permissionId 角色对应的权限ID列表
      */
     void saveRoles(Roles roles, Integer[] permissionId);
+
+    /**
+     * 根据权限ID删除权限
+     * @param id
+     * @throws ServiceException 删除失败抛出此异常，例如权限已经被角色使用
+     */
+    void delPermissionById(Integer id) throws ServiceException;
 }

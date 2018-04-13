@@ -62,8 +62,8 @@
                                         <td>${permission.url}</td>
                                         <td>${permission.permissionType}</td>
                                         <td>
-                                            <a href="">修改</a>
-                                            <a href="">删除</a>
+                                            <a class="btn btn-primary btn-xs" href="" title="编辑"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-danger btn-xs delLink" rel="${permission.id}" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 </c:when>
@@ -74,13 +74,12 @@
                                         <td>${permission.url}</td>
                                         <td>${permission.permissionType}</td>
                                         <td>
-                                            <a href="">修改</a>
-                                            <a href="">删除</a>
+                                            <a class="btn btn-primary btn-xs" href="" title="编辑"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-danger btn-xs delLink" rel="${permission.id}" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 </c:otherwise>
                             </c:choose>
-
                         </c:forEach>
                         </tbody>
                     </table>
@@ -96,9 +95,26 @@
 <%@include file="../../include/js.jsp"%>
 <script src="/static/plugins/treegrid/js/jquery.treegrid.min.js"></script>
 <script src="/static/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+<script src="/static/plugins/layer/layer.js"></script>
 <script>
     $(function () {
         $('.tree').treegrid();
+
+        $(".delLink").click(function(){
+            var id = $(this).attr("rel");
+            layer.confirm("确定要删除吗",function (index) {
+                layer.close(index);
+                $.get("/manage/permission/"+id+"/del").done(function (result) {
+                    if(result.status == 'success') {
+                        history.go(0);
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }).error(function () {
+                    layer.msg("服务器忙");
+                });
+            })
+        });
     });
 </script>
 </body>

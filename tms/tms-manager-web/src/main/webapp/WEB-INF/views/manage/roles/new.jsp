@@ -8,6 +8,8 @@
     <title>TMS - 系统管理 - 新增角色</title>
     <%@include file="../../include/css.jsp"%>
     <link rel="stylesheet" href="/static/plugins/treegrid/css/jquery.treegrid.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="/static/plugins/iCheck/square/blue.css">
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
 <!-- Site wrapper -->
@@ -108,12 +110,19 @@
 <%@include file="../../include/js.jsp"%>
 <script src="/static/plugins/treegrid/js/jquery.treegrid.min.js"></script>
 <script src="/static/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+<!-- iCheck -->
+<script src="/static/plugins/iCheck/icheck.min.js"></script>
 <script>
     $(function () {
         $("#saveBtn").click(function () {
             $("#saveForm").submit();
         });
         $('.tree').treegrid();
+        $('input[type=checkbox]').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' /* optional */
+        });
     })
 </script>
 </body>
