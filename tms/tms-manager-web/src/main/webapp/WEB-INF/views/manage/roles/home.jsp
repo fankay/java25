@@ -44,26 +44,18 @@
                 <div class="box-body">
                     <table class="table tree">
                         <tbody>
+                            <c:forEach items="${rolesList}" var="roles">
                             <tr class="bg-blue-active">
-                                <td>角色名称：<strong>超级管理员</strong></td>
+                                <td>角色名称：<strong>${roles.rolesName}</strong></td>
                             </tr>
                             <tr>
                                 <td>
-                                    <i class="fa fa-circle"></i> 权限查询
-                                    <i class="fa fa-circle"></i> 新增权限
-                                    <i class="fa fa-circle"></i> 修改权限
-                                    <i class="fa fa-circle"></i> 删除权限
+                                    <c:forEach items="${roles.permissionList}" var="per">
+                                        <i class="fa fa-circle"></i> ${per.permissionName}
+                                    </c:forEach>
                                 </td>
                             </tr>
-                            <tr class="bg-blue-active">
-                                <td>角色名称：<strong>管理员</strong></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-circle"></i> 权限查询
-                                    <i class="fa fa-circle"></i> 新增权限
-                                </td>
-                            </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>

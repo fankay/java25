@@ -133,6 +133,16 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     }
 
     /**
+     * 查询所有的角色并加载角色拥有的权限列表
+     *
+     * @return
+     */
+    @Override
+    public List<Roles> findAllRolesWithPermission() {
+        return rolesMapper.findAllWithPermission();
+    }
+
+    /**
      * 将查询数据库的角色列表转换为树形集合结果
      * @param sourceList 数据库查询出的集合
      * @param endList 转换结束的结果集合

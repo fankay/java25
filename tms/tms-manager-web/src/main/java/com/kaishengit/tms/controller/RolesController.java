@@ -24,7 +24,8 @@ public class RolesController {
     private RolePermissionService rolePermissionService;
 
     @GetMapping
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("rolesList",rolePermissionService.findAllRolesWithPermission());
         return "manage/roles/home";
     }
 

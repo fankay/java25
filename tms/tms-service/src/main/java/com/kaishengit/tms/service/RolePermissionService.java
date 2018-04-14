@@ -44,4 +44,10 @@ public interface RolePermissionService {
      * @throws ServiceException 删除失败抛出此异常，例如权限已经被角色使用
      */
     void delPermissionById(Integer id) throws ServiceException;
+
+    /**
+     * 查询所有的角色并加载角色拥有的权限列表
+     * @return
+     */
+    List<Roles> findAllRolesWithPermission();
 }

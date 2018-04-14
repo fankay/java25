@@ -2,6 +2,7 @@ package com.kaishengit.tms.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 
@@ -22,6 +23,8 @@ public class Roles implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+
+    private List<Permission> permissionList;
 
     private static final long serialVersionUID = 1L;
 
@@ -63,6 +66,14 @@ public class Roles implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<Permission> getPermissionList() {
+        return permissionList;
+    }
+
+    public void setPermissionList(List<Permission> permissionList) {
+        this.permissionList = permissionList;
     }
 
     @Override
