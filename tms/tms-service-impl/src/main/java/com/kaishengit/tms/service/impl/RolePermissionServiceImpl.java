@@ -3,12 +3,15 @@ package com.kaishengit.tms.service.impl;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.kaishengit.tms.entity.AccountRolesExample;
+import com.kaishengit.tms.entity.AccountRolesKey;
 import com.kaishengit.tms.entity.Permission;
 import com.kaishengit.tms.entity.PermissionExample;
 import com.kaishengit.tms.entity.Roles;
 import com.kaishengit.tms.entity.RolesPermissionExample;
 import com.kaishengit.tms.entity.RolesPermissionKey;
 import com.kaishengit.tms.exception.ServiceException;
+import com.kaishengit.tms.mapper.AccountRolesMapper;
 import com.kaishengit.tms.mapper.PermissionMapper;
 import com.kaishengit.tms.mapper.RolesMapper;
 import com.kaishengit.tms.mapper.RolesPermissionMapper;
@@ -39,6 +42,8 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     private RolesMapper rolesMapper;
     @Autowired
     private RolesPermissionMapper rolesPermissionMapper;
+    @Autowired
+    private AccountRolesMapper accountRolesMapper;
     /**
      * 添加权限
      *
@@ -140,6 +145,35 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     @Override
     public List<Roles> findAllRolesWithPermission() {
         return rolesMapper.findAllWithPermission();
+    }
+
+    /**
+     * 根据角色主键删除角色
+     *
+     * @param id
+     * @throws ServiceException
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delRolesById(Integer id) throws ServiceException {
+        //查询是否被账号引用，如果引用则不能删除
+        AccountRolesExample accountRolesExample = new AccountRolesExample();
+        accountRolesExample.createCriteria().andRolesIdEqualTo(id);
+
+        List<AccountRolesKey> accountRolesKeys = accountRolesMapper.selectByExample(accountRolesExample);
+        if(accountRolesKeys != null && !accountRolesKeys.isEmpty()) {
+            throw new ServiceException("该角色被账号引用，删除失败");
+        }
+        //删除角色和权限的关系记录
+        RolesPermissionExample rolesPermissionExample = new RolesPermissionExample();
+        rolesPermissionExample.createCriteria().andRolesIdEqualTo(id);
+
+        rolesPermissionMapper.deleteByExample(rolesPermissionExample);
+        //删除角色
+        Roles roles = rolesMapper.selectByPrimaryKey(id);
+        rolesMapper.deleteByPrimaryKey(id);
+
+        logger.info("删除角色 {}",roles);
     }
 
     /**

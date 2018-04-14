@@ -50,4 +50,11 @@ public interface RolePermissionService {
      * @return
      */
     List<Roles> findAllRolesWithPermission();
+
+    /**
+     * 根据角色主键删除角色
+     * @param id
+     * @throws ServiceException
+     */
+    void delRolesById(Integer id) throws ServiceException;
 }

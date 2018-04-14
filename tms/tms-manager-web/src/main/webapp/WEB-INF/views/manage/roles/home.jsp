@@ -45,8 +45,14 @@
                     <table class="table tree">
                         <tbody>
                             <c:forEach items="${rolesList}" var="roles">
-                            <tr class="bg-blue-active">
-                                <td>角色名称：<strong>${roles.rolesName}</strong></td>
+                            <tr class="bg-blue">
+                                <td>
+                                    角色名称：<strong>${roles.rolesName}</strong>
+                                    <span class="pull-right">
+                                        <a style="color: #fff;" href="/manage/roles/${roles.id}/edit"><i class="fa fa-pencil"></i></a>
+                                        <a style="color: #fff;" class="delLink" rel="${roles.id}" href="javascript:;"><i class="fa fa-trash"></i></a>
+                                    </span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -70,9 +76,26 @@
 <%@include file="../../include/js.jsp"%>
 <script src="/static/plugins/treegrid/js/jquery.treegrid.min.js"></script>
 <script src="/static/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+<script src="/static/plugins/layer/layer.js"></script>
 <script>
     $(function () {
         $('.tree').treegrid();
+        //删除
+        $(".delLink").click(function () {
+            var id = $(this).attr("rel");
+            layer.confirm("确定要删除该角色？",function (index) {
+                layer.close(index);
+                $.get("/manage/roles/"+id+"/del").done(function (result) {
+                    if(result.status == 'success') {
+                        window.history.go(0);
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }).error(function () {
+                    layer.msg("服务器忙");
+                });
+            })
+        });
     });
 </script>
 </body>
