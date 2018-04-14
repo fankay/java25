@@ -57,4 +57,18 @@ public interface RolePermissionService {
      * @throws ServiceException
      */
     void delRolesById(Integer id) throws ServiceException;
+
+    /**
+     * 根据角色ID查询角色对象及其拥有的权限
+     * @param id
+     * @return
+     */
+    Roles findRolesWithPermissionById(Integer id);
+
+    /**
+     * 修改角色对象
+     * @param roles 角色对象
+     * @param permissionId 角色拥有的新权限ID数组
+     */
+    void updateRoles(Roles roles, Integer[] permissionId);
 }

@@ -167,6 +167,22 @@
         LEFT JOIN permission ON permission.id = roles_permission.permission_id
         order by roles.id desc
     </select>
+    <select id="findByIdWithPermission" resultMap="rolesWithPermissionMap">
+        SELECT
+            roles.*, permission.id AS permissionId,
+            permission.create_time AS permissionCreateTime,
+            permission_code,
+            permission_name,
+            permission_type,
+            url,
+            permission.update_time AS permissionUpdateTime,
+            parent_id
+        FROM
+            roles
+        LEFT JOIN roles_permission ON roles.id = roles_permission.roles_id
+        LEFT JOIN permission ON permission.id = roles_permission.permission_id
+        where roles.id = #{id}
+    </select>
     <resultMap id="rolesWithPermissionMap" type="Roles" extends="BaseResultMap">
         <collection property="permissionList" ofType="Permission">
             <id property="id" column="permissionId"/>
