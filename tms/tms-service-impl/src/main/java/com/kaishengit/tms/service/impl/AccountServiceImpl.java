@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统账号的业务类
@@ -128,5 +129,16 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> findAllAccountWithRoles() {
         return accountMapper.findAllWithRoles();
+    }
+
+    /**
+     * 根据UI传来的查询参数查询所有账号并加载对应的角色列表
+     *
+     * @param requestParam
+     * @return
+     */
+    @Override
+    public List<Account> findAllAccountWithRolesByQueryParam(Map<String, Object> requestParam) {
+        return accountMapper.findAllWithRolesByQueryParam(requestParam);
     }
 }

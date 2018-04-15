@@ -37,8 +37,12 @@
             <div class="box no-border">
                 <div class="box-body">
                     <form class="form-inline">
-                        <select name="" class="form-control">
+                        <input type="text" name="nameMobile" placeholder="账号 或 手机号码" class="form-control" value="${param.nameMobile}">
+                        <select name="rolesId" class="form-control">
                             <option value="">所有账号</option>
+                            <c:forEach items="${rolesList}" var="roles">
+                                <option value="${roles.id}" ${param.rolesId == roles.id ? 'selected' : ''}>${roles.rolesName}</option>
+                            </c:forEach>
                         </select>
                         <button class="btn btn-default">搜索</button>
                     </form>
