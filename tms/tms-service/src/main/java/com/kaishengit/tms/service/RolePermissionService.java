@@ -71,4 +71,10 @@ public interface RolePermissionService {
      * @param permissionId 角色拥有的新权限ID数组
      */
     void updateRoles(Roles roles, Integer[] permissionId);
+
+    /**
+     * 查询所有的角色
+     */
+    List<Roles> findAllRoles();
+
 }

@@ -7,6 +7,7 @@ import com.kaishengit.tms.entity.AccountRolesKey;
 import com.kaishengit.tms.entity.Permission;
 import com.kaishengit.tms.entity.PermissionExample;
 import com.kaishengit.tms.entity.Roles;
+import com.kaishengit.tms.entity.RolesExample;
 import com.kaishengit.tms.entity.RolesPermissionExample;
 import com.kaishengit.tms.entity.RolesPermissionKey;
 import com.kaishengit.tms.exception.ServiceException;
@@ -210,6 +211,15 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         rolesMapper.updateByPrimaryKeySelective(roles);
 
         logger.info("修改角色 {}",roles);
+    }
+
+    /**
+     * 查询所有的角色
+     */
+    @Override
+    public List<Roles> findAllRoles() {
+        RolesExample rolesExample = new RolesExample();
+        return rolesMapper.selectByExample(rolesExample);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.kaishengit.tms.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 系统登录账号实体类
@@ -45,6 +46,8 @@ public class Account implements Serializable {
      * 账号状态：正常|禁用|锁定
      */
     private String accountState;
+
+    private List<Roles> rolesList;
 
     private static final long serialVersionUID = 1L;
 
@@ -102,6 +105,14 @@ public class Account implements Serializable {
 
     public void setAccountState(String accountState) {
         this.accountState = accountState;
+    }
+
+    public List<Roles> getRolesList() {
+        return rolesList;
+    }
+
+    public void setRolesList(List<Roles> rolesList) {
+        this.rolesList = rolesList;
     }
 
     @Override
