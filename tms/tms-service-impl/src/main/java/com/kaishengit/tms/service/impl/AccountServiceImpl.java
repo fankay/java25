@@ -3,6 +3,7 @@ package com.kaishengit.tms.service.impl;
 import com.kaishengit.tms.entity.Account;
 import com.kaishengit.tms.entity.AccountExample;
 import com.kaishengit.tms.entity.AccountLoginLog;
+import com.kaishengit.tms.entity.AccountRolesExample;
 import com.kaishengit.tms.entity.AccountRolesKey;
 import com.kaishengit.tms.exception.ServiceException;
 import com.kaishengit.tms.mapper.AccountLoginLogMapper;
@@ -140,5 +141,47 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> findAllAccountWithRolesByQueryParam(Map<String, Object> requestParam) {
         return accountMapper.findAllWithRolesByQueryParam(requestParam);
+    }
+
+    /**
+     * 根据主键查询Account对象
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Account findById(Integer id) {
+        return accountMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 修改账号
+     *
+     * @param account  账号对象
+     * @param rolesIds 账号拥有的角色ID数组
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void updateAccount(Account account, Integer[] rolesIds) {
+        //添加账号的修改时间
+        account.setUpdateTime(new Date());
+        accountMapper.updateByPrimaryKeySelective(account);
+
+        //删除原有的账号-角色关系
+        AccountRolesExample accountRolesExample = new AccountRolesExample();
+        accountRolesExample.createCriteria().andAccountIdEqualTo(account.getId());
+        accountRolesMapper.deleteByExample(accountRolesExample);
+
+        //新增账号-角色关系
+        if(rolesIds != null) {
+            for (Integer rolesId : rolesIds) {
+                AccountRolesKey accountRolesKey = new AccountRolesKey();
+                accountRolesKey.setRolesId(rolesId);
+                accountRolesKey.setAccountId(account.getId());
+                accountRolesMapper.insertSelective(accountRolesKey);
+            }
+        }
+
+        logger.info("修改账号 {}",account);
     }
 }

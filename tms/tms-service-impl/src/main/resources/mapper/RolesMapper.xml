@@ -183,6 +183,21 @@
         LEFT JOIN permission ON permission.id = roles_permission.permission_id
         where roles.id = #{id}
     </select>
+    <select id="findRolesByAccountId" resultType="com.kaishengit.tms.entity.Roles">
+        SELECT
+            *
+        FROM
+            roles
+        WHERE
+            id IN (
+                SELECT
+                    roles_id
+                FROM
+                    account_roles
+                WHERE
+                    account_id = #{accountId}
+            )
+    </select>
     <resultMap id="rolesWithPermissionMap" type="Roles" extends="BaseResultMap">
         <collection property="permissionList" ofType="Permission">
             <id property="id" column="permissionId"/>

@@ -41,4 +41,18 @@ public interface AccountService {
      * @return
      */
     List<Account> findAllAccountWithRolesByQueryParam(Map<String, Object> requestParam);
+
+    /**
+     * 根据主键查询Account对象
+     * @param id
+     * @return
+     */
+    Account findById(Integer id);
+
+    /**
+     * 修改账号
+     * @param account 账号对象
+     * @param rolesIds 账号拥有的角色ID数组
+     */
+    void updateAccount(Account account, Integer[] rolesIds);
 }

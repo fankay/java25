@@ -223,6 +223,17 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     }
 
     /**
+     * 根据账号ID查询拥有的角色集合
+     *
+     * @param id 账号ID
+     * @return
+     */
+    @Override
+    public List<Roles> findRolesByAccountId(Integer id) {
+        return rolesMapper.findRolesByAccountId(id);
+    }
+
+    /**
      * 将查询数据库的角色列表转换为树形集合结果
      * @param sourceList 数据库查询出的集合
      * @param endList 转换结束的结果集合

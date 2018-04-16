@@ -77,4 +77,10 @@ public interface RolePermissionService {
      */
     List<Roles> findAllRoles();
 
+    /**
+     * 根据账号ID查询拥有的角色集合
+     * @param id 账号ID
+     * @return
+     */
+    List<Roles> findRolesByAccountId(Integer id);
 }
