@@ -6,6 +6,7 @@ import com.kaishengit.tms.entity.Account;
 import com.kaishengit.tms.entity.Roles;
 import com.kaishengit.tms.service.AccountService;
 import com.kaishengit.tms.service.RolePermissionService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +53,7 @@ public class AccountController {
      * @return
      */
     @GetMapping("/new")
+    @RequiresPermissions("account:add")
     public String newAccount(Model model) {
         List<Roles> rolesList = rolePermissionService.findAllRoles();
 
@@ -60,6 +62,7 @@ public class AccountController {
     }
 
     @PostMapping("/new")
+    @RequiresPermissions("account:add")
     public String newAccount(Account account, Integer[] rolesIds) {
         accountService.saveAccount(account,rolesIds);
         return "redirect:/manage/account";

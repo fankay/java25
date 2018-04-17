@@ -3,6 +3,18 @@ package com.kaishengit.tms.controller;
 import com.kaishengit.tms.entity.Account;
 import com.kaishengit.tms.exception.ServiceException;
 import com.kaishengit.tms.service.AccountService;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +40,22 @@ public class HomeController {
      */
     @GetMapping("/")
     public String index() {
+        Subject subject = SecurityUtils.getSubject();
+
+        System.out.println("isAuthenticated()?" + subject.isAuthenticated());
+        System.out.println("isRemembered()?" + subject.isRemembered());
+
+        //判断当前是否有已经认证的账号，如果有，则退出该账号
+        if(subject.isAuthenticated()) {
+            subject.logout();
+        }
+
+        if(subject.isRemembered()) {
+            //如果当前为被记住（通过rememberMe认证），则直接跳转到登录成功页面 home
+            return "redirect:/home";
+        }
+
+
         return "index";
     }
 
@@ -38,22 +66,44 @@ public class HomeController {
     @PostMapping("/")
     public String login(String accountMobile,
                         String password,
+                        String rememberMe,
                         HttpServletRequest request,
-                        HttpSession session,
                         RedirectAttributes redirectAttributes) {
-        //获取登录的IP地址
+
+        // 创建Subject对象
+        Subject subject = SecurityUtils.getSubject();
+        // 根据账号和密码进行登录
         String requestIp = request.getRemoteAddr();
+        UsernamePasswordToken usernamePasswordToken =
+                new UsernamePasswordToken(accountMobile,DigestUtils.md5Hex(password),rememberMe!=null,requestIp);
+
         try {
-            Account account = accountService.login(accountMobile, password, requestIp);
-            //将登录成功的对象放入session
-            session.setAttribute("current_Account",account);
-            //进入home页面
-            return "redirect:/home";
-        } catch (ServiceException ex) {
-            redirectAttributes.addFlashAttribute("phone",accountMobile);
-            redirectAttributes.addFlashAttribute("message",ex.getMessage());
-            return "redirect:/";
+            subject.login(usernamePasswordToken);
+
+            //将登录成功的对象放入session（没必要）
+            Account account = accountService.findByMobile(accountMobile);
+            Session session = subject.getSession();
+            session.setAttribute("curr_account",account);
+
+            //登录后跳转目标的判断
+            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+            String url = "/home";
+            if(savedRequest != null) {
+                url = savedRequest.getRequestUrl();
+            }
+
+            return "redirect:"+url;
+        } catch (UnknownAccountException | IncorrectCredentialsException ex) {
+            ex.printStackTrace();
+            redirectAttributes.addFlashAttribute("message","账号或密码错误");
+        } catch (LockedAccountException ex) {
+            ex.printStackTrace();
+            redirectAttributes.addFlashAttribute("message","账号被锁定");
+        } catch (AuthenticationException ex) {
+            ex.printStackTrace();
+            redirectAttributes.addFlashAttribute("message","账号或密码错误");
         }
+        return "redirect:/";
     }
 
     /**
@@ -64,6 +114,19 @@ public class HomeController {
     public String home() {
         return "home";
     }
+
+    /**
+     * 安全退出
+     * @return
+     */
+    /*@GetMapping("/logout")
+    public String logout(RedirectAttributes redirectAttributes) {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+
+        redirectAttributes.addFlashAttribute("message","你已安全退出系统");
+        return "redirect:/";
+    }*/
 
     @GetMapping("/401")
     public String unauthorizedUrl() {

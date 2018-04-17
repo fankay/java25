@@ -1,6 +1,7 @@
 package com.kaishengit.tms.service;
 
 import com.kaishengit.tms.entity.Account;
+import com.kaishengit.tms.entity.AccountLoginLog;
 import com.kaishengit.tms.exception.ServiceException;
 
 import java.util.List;
@@ -11,16 +12,6 @@ import java.util.Map;
  * @author fankay
  */
 public interface AccountService {
-
-    /**
-     * 系统登录
-     * @param accountMobile 手机号码
-     * @param password 密码
-     * @param requestIp 登录的IP地址
-     * @return 如果登录成功，则返回Account对象，如果登录失败返回null
-     * @throws ServiceException 如果登录失败，则通过异常抛出具体的错误原因
-     */
-    Account login(String accountMobile, String password, String requestIp) throws ServiceException;
 
     /**
      * 新增账号
@@ -55,4 +46,17 @@ public interface AccountService {
      * @param rolesIds 账号拥有的角色ID数组
      */
     void updateAccount(Account account, Integer[] rolesIds);
+
+    /**
+     * 根据手机号码查询Account对象
+     * @param userMobile
+     * @return
+     */
+    Account findByMobile(String userMobile);
+
+    /**
+     * 新增Account的登录日志
+     * @param accountLoginLog 登录日志对象
+     */
+    void saveAccountLoginLog(AccountLoginLog accountLoginLog);
 }
