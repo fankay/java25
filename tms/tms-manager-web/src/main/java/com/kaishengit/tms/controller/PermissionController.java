@@ -4,6 +4,7 @@ import com.kaishengit.tms.dto.ResponseBean;
 import com.kaishengit.tms.entity.Permission;
 import com.kaishengit.tms.exception.ServiceException;
 import com.kaishengit.tms.service.RolePermissionService;
+import com.kaishengit.tms.shiro.CustomerFilterChainDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,8 @@ public class PermissionController {
 
     @Autowired
     private RolePermissionService rolePermissionService;
+    @Autowired
+    private CustomerFilterChainDefinition customerFilterChainDefinition;
 
     /**
      * 权限的首页
@@ -53,7 +56,8 @@ public class PermissionController {
     @PostMapping("/new")
     public String newPermission(Permission permission, RedirectAttributes redirectAttributes) {
         rolePermissionService.savePermission(permission);
-
+        //刷新Shiro的权限
+        customerFilterChainDefinition.updateUrlPermission();
         redirectAttributes.addFlashAttribute("message","新增权限成功");
         return "redirect:/manage/permission";
     }
@@ -67,6 +71,8 @@ public class PermissionController {
     public @ResponseBody ResponseBean deletePermission(@PathVariable Integer id) {
         try {
             rolePermissionService.delPermissionById(id);
+            //刷新Shiro的权限
+            customerFilterChainDefinition.updateUrlPermission();
             return ResponseBean.success();
         } catch (ServiceException ex) {
             return ResponseBean.error(ex.getMessage());

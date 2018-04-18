@@ -44,6 +44,7 @@
 
     <!--6. 配置ShiroFilter id必须和web.xml中的filter节点的filter-name相同-->
     <bean id="filterChainDefinition" class="com.kaishengit.tms.shiro.CustomerFilterChainDefinition">
+        <property name="shiroFilter" ref="shiroFilter"/>
         <property name="filterChainDefinitions">
             <value>
                 /favicon.ico = anon
@@ -61,16 +62,6 @@
         <property name="successUrl" value="/home"/>
         <!--访问没有权限的资源跳转的URL-->
         <property name="unauthorizedUrl" value="/401"/>
-        <property name="filterChainDefinitionMap" ref="filterChainDefinition"/>
-        <!--<property name="filterChainDefinitions">
-            <value>
-                /favicon.ico = anon
-                /static/** = anon
-                /logout = logout
-                /manage/account/*/edit = perms[account:edit]
-                /** = user
-            </value>
-        </property>-->
     </bean>
 
 
