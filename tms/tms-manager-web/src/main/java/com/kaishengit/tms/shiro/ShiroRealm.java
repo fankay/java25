@@ -2,7 +2,10 @@ package com.kaishengit.tms.shiro;
 
 import com.kaishengit.tms.entity.Account;
 import com.kaishengit.tms.entity.AccountLoginLog;
+import com.kaishengit.tms.entity.Permission;
+import com.kaishengit.tms.entity.Roles;
 import com.kaishengit.tms.service.AccountService;
+import com.kaishengit.tms.service.RolePermissionService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -11,13 +14,18 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ShiroRealm extends AuthorizingRealm {
 
@@ -26,6 +34,9 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private RolePermissionService rolePermissionService;
+
     /**
      * 判断角色和权限
      * @param principalCollection
@@ -33,7 +44,33 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        //获取当前登录的对象
+        Account account = (Account) principalCollection.getPrimaryPrincipal();
+        //获取当前登录对象拥有的角色
+        List<Roles> rolesList = rolePermissionService.findRolesByAccountId(account.getId());
+        //获取当前登录对象拥有的权限
+        List<Permission> permissionList = new ArrayList<>();
+        for(Roles roles : rolesList) {
+            List<Permission> rolesPermissionList = rolePermissionService.findAllPermissionByRolesId(roles.getId());
+            permissionList.addAll(rolesPermissionList);
+        }
+
+        Set<String> rolesNameSet = new HashSet<>();
+        for(Roles roles : rolesList) {
+            rolesNameSet.add(roles.getRolesCode());
+        }
+
+        Set<String> permissionNameSet = new HashSet<>();
+        for(Permission permission : permissionList) {
+            permissionNameSet.add(permission.getPermissionCode());
+        }
+
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        //当前用户拥有的角色（code）
+        simpleAuthorizationInfo.setRoles(rolesNameSet);
+        //当前用户拥有的权限(code)
+        simpleAuthorizationInfo.setStringPermissions(permissionNameSet);
+        return simpleAuthorizationInfo;
     }
 
     /**

@@ -87,7 +87,9 @@
                                         <fmt:formatDate value="${account.createTime}"/>
                                     </td>
                                     <td>
-                                        <a href="/manage/account/${account.id}/edit"><i class="fa fa-edit"></i></a>
+                                        <shiro:hasPermission name="account:edit">
+                                            <a href="/manage/account/${account.id}/edit"><i class="fa fa-edit"></i></a>
+                                        </shiro:hasPermission>
                                     </td>
                                 </tr>
                             </c:forEach>

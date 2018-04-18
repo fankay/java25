@@ -1,3 +1,4 @@
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- 左侧菜单栏 -->
 <aside class="main-sidebar">
@@ -9,7 +10,9 @@
         <ul class="sidebar-menu">
             <li class="${param.menu == 'home' ? 'active' : ''}"><a href="/home"><i class="fa fa-home"></i> <span>首页</span></a></li>
             <li class="header">系统管理</li>
-            <li class="${param.menu == 'manage_account' ? 'active' : ''}"><a href="/manage/account"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>
+            <shiro:hasPermission name="account:query">
+                <li class="${param.menu == 'manage_account' ? 'active' : ''}"><a href="/manage/account"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>
+            </shiro:hasPermission>
             <li class="${param.menu == 'manage_roles' ? 'active' : ''}"><a href="/manage/roles"><i class="fa fa-circle-o"></i> <span>角色管理</span></a></li>
             <li class="${param.menu == 'manage_permission' ? 'active' : ''}"><a href="/manage/permission"><i class="fa fa-circle-o"></i> <span>权限管理</span></a></li>
 

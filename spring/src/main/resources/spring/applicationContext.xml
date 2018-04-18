@@ -4,6 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+
+    <bean id="appleFactory" class="com.kaishengit.factory.SpringAppleFactory"/>
+
     <!--
         id: 在容器中为bean命名，唯一
         class: 放入容器的bean的完全限定名
@@ -12,8 +15,8 @@
         scope:singleton bean在容器中为单例
              :prototype bean在容器中为非单例
     -->
-    <bean id="userDao" class="com.kaishengit.dao.UserDao"
-          scope="prototype" init-method="init" destroy-method="destroy"/>
+    <!--<bean id="userDao" class="com.kaishengit.dao.UserDao"
+          scope="prototype" init-method="init" destroy-method="destroy"/>-->
     <!--<bean name="userDao,userDao2" class="com.kaishengit.dao.UserDao"/>-->
     <!--别名-->
     <!--<alias name="userDao" alias="userDao2"/>-->
