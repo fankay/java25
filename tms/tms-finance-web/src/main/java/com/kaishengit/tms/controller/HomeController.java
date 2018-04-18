@@ -13,6 +13,8 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class HomeController {
 
+    private Logger logger = LoggerFactory.getLogger(HomeController.class);
+
     @Autowired
     private AccountService accountService;
 
@@ -38,9 +42,6 @@ public class HomeController {
     @GetMapping("/")
     public String index() {
         Subject subject = SecurityUtils.getSubject();
-
-        System.out.println("isAuthenticated()?" + subject.isAuthenticated());
-        System.out.println("isRemembered()?" + subject.isRemembered());
 
         //判断当前是否有已经认证的账号，如果有，则退出该账号
         if(subject.isAuthenticated()) {
@@ -77,19 +78,19 @@ public class HomeController {
         try {
             subject.login(usernamePasswordToken);
 
-            //将登录成功的对象放入session（没必要）
-            Account account = accountService.findByMobile(accountMobile);
-            Session session = subject.getSession();
-            session.setAttribute("curr_account",account);
+            if(subject.hasRole("finance") || subject.hasRole("store")) {
+                //登录后跳转目标的判断
+                SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+                String url = "/home";
+                if(savedRequest != null) {
+                    url = savedRequest.getRequestUrl();
+                }
 
-            //登录后跳转目标的判断
-            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-            String url = "/home";
-            if(savedRequest != null) {
-                url = savedRequest.getRequestUrl();
+                return "redirect:"+url;
+            } else {
+                logger.info("{} 没有权限登录该系统",accountMobile);
+                redirectAttributes.addFlashAttribute("message","没有登录该系统的权限");
             }
-
-            return "redirect:"+url;
         } catch (UnknownAccountException | IncorrectCredentialsException ex) {
             ex.printStackTrace();
             redirectAttributes.addFlashAttribute("message","账号或密码错误");

@@ -9,12 +9,21 @@
         <!-- 菜单 -->
         <ul class="sidebar-menu">
             <li class="${param.menu == 'home' ? 'active' : ''}"><a href="/home"><i class="fa fa-home"></i> <span>首页</span></a></li>
-            <li class="header">系统管理</li>
-            <shiro:hasPermission name="account:query">
-                <li class="${param.menu == 'manage_account' ? 'active' : ''}"><a href="/manage/account"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>
-            </shiro:hasPermission>
-            <li class="${param.menu == 'manage_roles' ? 'active' : ''}"><a href="/manage/roles"><i class="fa fa-circle-o"></i> <span>角色管理</span></a></li>
-            <li class="${param.menu == 'manage_permission' ? 'active' : ''}"><a href="/manage/permission"><i class="fa fa-circle-o"></i> <span>权限管理</span></a></li>
+            <shiro:hasRole name="store">
+                <li class="header">库存管理</li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> <span>年票入库</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> <span>年票下发</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> <span>年票作废</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> <span>盘点统计</span></a></li>
+            </shiro:hasRole>
+            <shiro:hasRole name="finance">
+                <li class="header">财务管理</li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> <span>售票点缴费</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> <span>景区结算</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> <span>销售统计</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> <span>验票统计</span></a></li>
+            </shiro:hasRole>
+
 
             <%--<!-- 普通菜单 -->
             <li class="treeview">
