@@ -9,6 +9,8 @@
         <!-- 菜单 -->
         <ul class="sidebar-menu">
             <li class="${param.menu == 'home' ? 'active' : ''}"><a href="/home"><i class="fa fa-home"></i> <span>首页</span></a></li>
+            <li class="header">系统功能</li>
+            <li class="${param.menu == 'ticket_store' ? 'active' : ''}"><a href="/ticketstore"><i class="fa fa-shopping-bag"></i> <span>售票点管理</span></a></li>
             <li class="header">系统管理</li>
             <shiro:hasPermission name="account:query">
                 <li class="${param.menu == 'manage_account' ? 'active' : ''}"><a href="/manage/account"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>
