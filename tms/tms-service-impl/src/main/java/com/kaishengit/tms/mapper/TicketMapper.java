@@ -27,4 +27,6 @@ public interface TicketMapper {
     int updateByPrimaryKeySelective(Ticket record);
 
     int updateByPrimaryKey(Ticket record);
+
+    void batchInsert(@Param("ticketList") List<Ticket> ticketList);
 }

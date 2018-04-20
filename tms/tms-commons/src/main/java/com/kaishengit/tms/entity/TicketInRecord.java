@@ -116,4 +116,19 @@ public class TicketInRecord implements Serializable {
     public void setTotalNum(Integer totalNum) {
         this.totalNum = totalNum;
     }
+
+    @Override
+    public String toString() {
+        return "TicketInRecord{" +
+                "id=" + id +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", accountName='" + accountName + '\'' +
+                ", content='" + content + '\'' +
+                ", accountId=" + accountId +
+                ", beginTicketNum='" + beginTicketNum + '\'' +
+                ", endTicketNum='" + endTicketNum + '\'' +
+                ", totalNum=" + totalNum +
+                '}';
+    }
 }

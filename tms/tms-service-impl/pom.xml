@@ -103,6 +103,12 @@
             <artifactId>qiniu-java-sdk</artifactId>
             <version>7.2.8</version>
         </dependency>
+        <!--joda date-->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.9</version>
+        </dependency>
     </dependencies>
 
     <build>
