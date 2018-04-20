@@ -494,66 +494,6 @@ public class StoreAccountExample {
             addCriterion("store_state not between", value1, value2, "storeState");
             return (Criteria) this;
         }
-
-        public Criteria andTicketStoreIdIsNull() {
-            addCriterion("ticket_store_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdIsNotNull() {
-            addCriterion("ticket_store_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdEqualTo(Integer value) {
-            addCriterion("ticket_store_id =", value, "ticketStoreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdNotEqualTo(Integer value) {
-            addCriterion("ticket_store_id <>", value, "ticketStoreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdGreaterThan(Integer value) {
-            addCriterion("ticket_store_id >", value, "ticketStoreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("ticket_store_id >=", value, "ticketStoreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdLessThan(Integer value) {
-            addCriterion("ticket_store_id <", value, "ticketStoreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdLessThanOrEqualTo(Integer value) {
-            addCriterion("ticket_store_id <=", value, "ticketStoreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdIn(List<Integer> values) {
-            addCriterion("ticket_store_id in", values, "ticketStoreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdNotIn(List<Integer> values) {
-            addCriterion("ticket_store_id not in", values, "ticketStoreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdBetween(Integer value1, Integer value2) {
-            addCriterion("ticket_store_id between", value1, value2, "ticketStoreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTicketStoreIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("ticket_store_id not between", value1, value2, "ticketStoreId");
-            return (Criteria) this;
-        }
     }
 
     /**

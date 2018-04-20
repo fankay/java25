@@ -38,8 +38,6 @@ public class StoreAccount implements Serializable {
      */
     private String storeState;
 
-    private Integer ticketStoreId;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -88,13 +86,5 @@ public class StoreAccount implements Serializable {
 
     public void setStoreState(String storeState) {
         this.storeState = storeState;
-    }
-
-    public Integer getTicketStoreId() {
-        return ticketStoreId;
-    }
-
-    public void setTicketStoreId(Integer ticketStoreId) {
-        this.ticketStoreId = ticketStoreId;
     }
 }

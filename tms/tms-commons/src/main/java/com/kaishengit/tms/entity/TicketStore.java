@@ -53,8 +53,6 @@ public class TicketStore implements Serializable {
 
     private Date updateTime;
 
-    private Integer storeAccountId;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -143,13 +141,5 @@ public class TicketStore implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public Integer getStoreAccountId() {
-        return storeAccountId;
-    }
-
-    public void setStoreAccountId(Integer storeAccountId) {
-        this.storeAccountId = storeAccountId;
     }
 }

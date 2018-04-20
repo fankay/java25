@@ -43,18 +43,14 @@ public class TicketStoreServiceImpl implements TicketStoreService {
 
         //创建售票点账号
         StoreAccount storeAccount = new StoreAccount();
+        storeAccount.setId(ticketStore.getId());
         storeAccount.setStoreAccount(ticketStore.getStoreTel());
         //默认密码为手机号码后六位
         storeAccount.setStorePassword(DigestUtils.md5Hex(ticketStore.getStoreTel().substring(5)));
         storeAccount.setCreateTime(new Date());
-        storeAccount.setTicketStoreId(ticketStore.getId());
         storeAccount.setStoreState(StoreAccount.ACCOUNT_STATE_NORMAL);
 
         storeAccountMapper.insertSelective(storeAccount);
-
-        //更新关联的账号ID
-        ticketStore.setStoreAccountId(storeAccount.getId());
-        ticketStoreMapper.updateByPrimaryKeySelective(ticketStore);
     }
 
     /**
@@ -122,7 +118,7 @@ public class TicketStoreServiceImpl implements TicketStoreService {
         ticketStore.setUpdateTime(new Date());
 
         //判断是否修改了联系电话
-        StoreAccount storeAccount = storeAccountMapper.selectByPrimaryKey(ticketStore.getStoreAccountId());
+        StoreAccount storeAccount = storeAccountMapper.selectByPrimaryKey(ticketStore.getId());
         if(!ticketStore.getStoreTel().equals(storeAccount.getStoreAccount())) {
             //如果修改的电话，则需要同步修改账号
             storeAccount.setStoreAccount(ticketStore.getStoreTel());

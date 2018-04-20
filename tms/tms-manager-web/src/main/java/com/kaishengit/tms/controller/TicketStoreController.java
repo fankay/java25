@@ -77,7 +77,7 @@ public class TicketStoreController {
             throw new NotFoundException();
         }
         //查找关联的售票点账号
-        StoreAccount storeAccount = ticketStoreService.findStoreAccountById(ticketStore.getStoreAccountId());
+        StoreAccount storeAccount = ticketStoreService.findStoreAccountById(ticketStore.getId());
 
         model.addAttribute("storeAccount",storeAccount);
         model.addAttribute("ticketStore",ticketStore);

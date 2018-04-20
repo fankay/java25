@@ -844,66 +844,6 @@ public class TicketStoreExample {
             addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
-
-        public Criteria andStoreAccountIdIsNull() {
-            addCriterion("store_account_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdIsNotNull() {
-            addCriterion("store_account_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdEqualTo(Integer value) {
-            addCriterion("store_account_id =", value, "storeAccountId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdNotEqualTo(Integer value) {
-            addCriterion("store_account_id <>", value, "storeAccountId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdGreaterThan(Integer value) {
-            addCriterion("store_account_id >", value, "storeAccountId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("store_account_id >=", value, "storeAccountId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdLessThan(Integer value) {
-            addCriterion("store_account_id <", value, "storeAccountId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdLessThanOrEqualTo(Integer value) {
-            addCriterion("store_account_id <=", value, "storeAccountId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdIn(List<Integer> values) {
-            addCriterion("store_account_id in", values, "storeAccountId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdNotIn(List<Integer> values) {
-            addCriterion("store_account_id not in", values, "storeAccountId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdBetween(Integer value1, Integer value2) {
-            addCriterion("store_account_id between", value1, value2, "storeAccountId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStoreAccountIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("store_account_id not between", value1, value2, "storeAccountId");
-            return (Criteria) this;
-        }
     }
 
     /**
