@@ -1,6 +1,10 @@
 package com.kaishengit.tms.service;
 
+import com.github.pagehelper.PageInfo;
+import com.kaishengit.tms.entity.StoreAccount;
 import com.kaishengit.tms.entity.TicketStore;
+
+import java.util.Map;
 
 /**
  * 年票售票点业务类
@@ -12,4 +16,32 @@ public interface TicketStoreService {
      * @param ticketStore
      */
     void saveNewTicktStore(TicketStore ticketStore);
+
+    /**
+     * 根据当前页面和查询参数查询销售点
+     * @param pageNo
+     * @param queryParam
+     * @return
+     */
+    PageInfo<TicketStore> findAllTicketStoreByPage(Integer pageNo, Map<String, Object> queryParam);
+
+    /**
+     * 根据ID查找对应的售票点
+     * @param id
+     * @return
+     */
+    TicketStore findTicketStoreById(Integer id);
+
+    /**
+     * 根据主键查找售票点账号对象
+     * @param id
+     * @return
+     */
+    StoreAccount findStoreAccountById(Integer id);
+
+    /**
+     * 修改售票点对象
+     * @param ticketStore
+     */
+    void updateTicketStore(TicketStore ticketStore);
 }
