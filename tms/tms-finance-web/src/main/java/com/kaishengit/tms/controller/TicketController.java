@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/ticket")
 public class TicketController {
@@ -74,5 +76,16 @@ public class TicketController {
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
         }
         return "redirect:/ticket/storage";
+    }
+
+    /**
+     * 年票统计首页
+     * @return
+     */
+    @GetMapping("/chart")
+    public String chartHome(Model model) {
+        Map<String,Long> resultMap = ticketService.countTicketByState();
+        model.addAttribute("resultMap",resultMap);
+        return "ticket/chart/home";
     }
 }

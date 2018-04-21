@@ -14,7 +14,7 @@
                 <li class="${param.menu == 'ticket_storage' ? 'active' : ''}"><a href="/ticket/storage"><i class="fa fa-circle-o"></i> <span>年票入库</span></a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i> <span>年票下发</span></a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i> <span>年票作废</span></a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> <span>盘点统计</span></a></li>
+                <li class="${param.menu == 'ticket_chart' ? 'active' : ''}"><a href="/ticket/chart"><i class="fa fa-circle-o"></i> <span>盘点统计</span></a></li>
             </shiro:hasRole>
             <shiro:hasRole name="finance">
                 <li class="header">财务管理</li>

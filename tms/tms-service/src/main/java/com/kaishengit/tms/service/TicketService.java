@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.kaishengit.tms.entity.TicketInRecord;
 import com.kaishengit.tms.exception.ServiceException;
 
+import java.util.Map;
+
 /**
  * 年票业务类
  * @author fankay
@@ -29,4 +31,11 @@ public interface TicketService {
      * @throws ServiceException 删除失败时抛出业务异常
      */
     void delInRecordById(Integer id) throws ServiceException;
+
+    /**
+     * 统计各个状态的年票数量
+     * @return
+     */
+    Map<String,Long> countTicketByState();
+
 }

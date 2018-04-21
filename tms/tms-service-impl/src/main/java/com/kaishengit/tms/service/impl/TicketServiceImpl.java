@@ -24,6 +24,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 年票业务类
@@ -144,5 +145,15 @@ public class TicketServiceImpl implements TicketService {
             //删除年票入库记录
             ticketInRecordMapper.deleteByPrimaryKey(id);
         }
+    }
+
+    /**
+     * 统计各个状态的年票数量
+     *
+     * @return
+     */
+    @Override
+    public Map<String, Long> countTicketByState() {
+        return ticketMapper.countByState();
     }
 }
