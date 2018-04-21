@@ -47,10 +47,17 @@ public class TicketController {
         return "ticket/storage/new";
     }
     @PostMapping("/storage/new")
-    public String newTicketStorage(TicketInRecord ticketInRecord, RedirectAttributes redirectAttributes) {
-        ticketService.saveTicketInRecord(ticketInRecord);
+    public String newTicketStorage(TicketInRecord ticketInRecord,
+                                   RedirectAttributes redirectAttributes,
+                                   Model model) {
+        try {
+            ticketService.saveTicketInRecord(ticketInRecord);
 
-        redirectAttributes.addFlashAttribute("message","新增成功");
+            redirectAttributes.addFlashAttribute("message", "新增成功");
+        } catch (ServiceException ex) {
+            redirectAttributes.addFlashAttribute("message",ex.getMessage());
+            ex.printStackTrace();
+        }
         return "redirect:/ticket/storage";
     }
 

@@ -12,8 +12,9 @@ public interface TicketService {
     /**
      * 保存一个入库记录
      * @param ticketInRecord
+     * @throws ServiceException 添加失败，则抛出业务异常
      */
-    void saveTicketInRecord(TicketInRecord ticketInRecord);
+    void saveTicketInRecord(TicketInRecord ticketInRecord) throws ServiceException;
 
     /**
      * 根据当前页号查询入库记录列表

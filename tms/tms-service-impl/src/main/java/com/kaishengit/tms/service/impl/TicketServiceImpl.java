@@ -49,13 +49,24 @@ public class TicketServiceImpl implements TicketService {
      */
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void saveTicketInRecord(TicketInRecord ticketInRecord) {
-        //设置入库时间
-        ticketInRecord.setCreateTime(new Date());
-        //获取总数量=截至票号-起始票号+1
+    public void saveTicketInRecord(TicketInRecord ticketInRecord) throws ServiceException {
         BigInteger start = new BigInteger(ticketInRecord.getBeginTicketNum());
         BigInteger end = new BigInteger(ticketInRecord.getEndTicketNum());
 
+        //判断当前的入库票号的范围是否和之前入库的范围重合，如果重回则不能添加
+        List<TicketInRecord> ticketInRecordList = ticketInRecordMapper.selectByExample(new TicketInRecordExample());
+        for(TicketInRecord record : ticketInRecordList) {
+            BigInteger recordStart = new BigInteger(record.getBeginTicketNum());
+            BigInteger recordEnd = new BigInteger(record.getEndTicketNum());
+            boolean flag = (recordStart.compareTo(start) <= 0 && recordEnd.compareTo(start) >= 0) || (recordStart.compareTo(end) <= 0 && recordEnd.compareTo(end) >= 0);
+            if(flag) {
+                throw new ServiceException("票号区间重复，添加失败");
+            }
+        }
+
+        //设置入库时间
+        ticketInRecord.setCreateTime(new Date());
+        //获取总数量=截至票号-起始票号+1
         BigInteger totalNUm = end.subtract(start).add(new BigInteger(String.valueOf(1)));
         ticketInRecord.setTotalNum(totalNUm.intValue());
 
