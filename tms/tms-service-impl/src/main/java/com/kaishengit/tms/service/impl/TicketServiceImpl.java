@@ -1,8 +1,13 @@
 package com.kaishengit.tms.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.kaishengit.tms.entity.Account;
 import com.kaishengit.tms.entity.Ticket;
+import com.kaishengit.tms.entity.TicketExample;
 import com.kaishengit.tms.entity.TicketInRecord;
+import com.kaishengit.tms.entity.TicketInRecordExample;
+import com.kaishengit.tms.exception.ServiceException;
 import com.kaishengit.tms.mapper.TicketInRecordMapper;
 import com.kaishengit.tms.mapper.TicketMapper;
 import com.kaishengit.tms.service.TicketService;
@@ -79,5 +84,51 @@ public class TicketServiceImpl implements TicketService {
 
         //批量保存年票记录
         ticketMapper.batchInsert(ticketList);
+    }
+
+    /**
+     * 根据当前页号查询入库记录列表
+     *
+     * @param pageNo
+     * @return
+     */
+    @Override
+    public PageInfo<TicketInRecord> findTicketRecordByPageNo(Integer pageNo) {
+        PageHelper.startPage(pageNo,15);
+
+        TicketInRecordExample inRecordExample = new TicketInRecordExample();
+        inRecordExample.setOrderByClause("id desc");
+
+        List<TicketInRecord> ticketInRecordList = ticketInRecordMapper.selectByExample(inRecordExample);
+        return new PageInfo<>(ticketInRecordList);
+    }
+
+    /**
+     * 根据ID删除年票入库记录
+     * @param id
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delInRecordById(Integer id) {
+        //查找对应的年票记录
+        TicketInRecord inRecord = ticketInRecordMapper.selectByPrimaryKey(id);
+        if(inRecord != null) {
+            //查找该记录对应的年票
+            TicketExample ticketExample = new TicketExample();
+            ticketExample.createCriteria()
+                    .andTicketNumGreaterThanOrEqualTo(inRecord.getBeginTicketNum())
+                    .andTicketNumLessThanOrEqualTo(inRecord.getEndTicketNum())
+                    .andTicketStateEqualTo(Ticket.TICKET_STATE_IN_STORE);
+            List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
+
+            //判断年票数量和入库记录总数量是否相同，如果不同，则表示有的年票状态已经发生修改，不能删除
+            if(!inRecord.getTotalNum().equals(ticketList.size())) {
+                throw new ServiceException("该批次年票状态已经发生改变，不能删除");
+            }
+            //删除年票
+            ticketMapper.deleteByExample(ticketExample);
+            //删除年票入库记录
+            ticketInRecordMapper.deleteByPrimaryKey(id);
+        }
     }
 }

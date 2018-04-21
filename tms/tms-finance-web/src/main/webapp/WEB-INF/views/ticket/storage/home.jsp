@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -40,20 +42,45 @@
                     </div>
                 </div>
                 <div class="box-body">
+                    <c:if test="${not empty message}">
+                        <div class="alert alert-info">${message}</div>
+                    </c:if>
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th>入库时间</th>
-                            <th>内容</th>
-                            <th>起始票号</th>
-                            <th>截至票号</th>
-                            <th>数量</th>
-                            <th>入库人</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th>入库时间</th>
+                                <th>内容</th>
+                                <th>起始票号</th>
+                                <th>截至票号</th>
+                                <th>数量</th>
+                                <th>入库人</th>
+                                <th></th>
+                            </tr>
                         </thead>
+                        <tbody>
+                        <c:if test="${empty pageInfo.list}">
+                            <tr>
+                                <td colspan="7">暂无记录</td>
+                            </tr>
+                        </c:if>
+                        <c:forEach items="${pageInfo.list}" var="record">
+                            <tr>
+                                <td><fmt:formatDate value="${record.createTime}"/></td>
+                                <td>${record.content}</td>
+                                <td>${record.beginTicketNum}</td>
+                                <td>${record.endTicketNum}</td>
+                                <td>${record.totalNum}</td>
+                                <td>${record.accountName}</td>
+                                <td>
+                                    <a href="javascript:;" class="btn btn-sm del_link" rel="${record.id}"><i class="fa fa-trash text-danger"></i></a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
                     </table>
-
+                    <c:if test="${pageInfo.pages > 1}">
+                        <ul id="pagination-demo" class="pagination pull-right"></ul>
+                    </c:if>
                 </div>
             </div>
         </section>
@@ -64,5 +91,29 @@
 <!-- ./wrapper -->
 
 <%@include file="../../include/js.jsp"%>
+<script src="/static/plugins/page/jquery.twbsPagination.min.js"></script>
+<script src="/static/plugins/layer/layer.js"></script>
+<script>
+    $(function () {
+        $('#pagination-demo').twbsPagination({
+            totalPages: ${pageInfo.pages},
+            visiblePages: 10,
+            first:'首页',
+            last:'末页',
+            prev:'←',
+            next:'→',
+            href:"?p={{number}}"
+        });
+
+        $(".del_link").click(function () {
+            var id = $(this).attr("rel");
+            layer.confirm("确定要删除该入库记录?",function (index) {
+                layer.close(index);
+                window.location.href = "/ticket/storage/"+id+"/del";
+            })
+        });
+
+    });
+</script>
 </body>
 </html>
