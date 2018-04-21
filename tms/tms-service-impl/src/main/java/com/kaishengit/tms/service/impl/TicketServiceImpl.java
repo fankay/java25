@@ -52,6 +52,9 @@ public class TicketServiceImpl implements TicketService {
     public void saveTicketInRecord(TicketInRecord ticketInRecord) throws ServiceException {
         BigInteger start = new BigInteger(ticketInRecord.getBeginTicketNum());
         BigInteger end = new BigInteger(ticketInRecord.getEndTicketNum());
+        if(start.compareTo(end) >= 0) {
+            throw new ServiceException("起始票号必须小于截至票号");
+        }
 
         //判断当前的入库票号的范围是否和之前入库的范围重合，如果重回则不能添加
         List<TicketInRecord> ticketInRecordList = ticketInRecordMapper.selectByExample(new TicketInRecordExample());
