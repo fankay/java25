@@ -886,6 +886,76 @@ public class TicketOutRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andStoreAccountNameIsNull() {
+            addCriterion("store_account_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameIsNotNull() {
+            addCriterion("store_account_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameEqualTo(String value) {
+            addCriterion("store_account_name =", value, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameNotEqualTo(String value) {
+            addCriterion("store_account_name <>", value, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameGreaterThan(String value) {
+            addCriterion("store_account_name >", value, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameGreaterThanOrEqualTo(String value) {
+            addCriterion("store_account_name >=", value, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameLessThan(String value) {
+            addCriterion("store_account_name <", value, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameLessThanOrEqualTo(String value) {
+            addCriterion("store_account_name <=", value, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameLike(String value) {
+            addCriterion("store_account_name like", value, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameNotLike(String value) {
+            addCriterion("store_account_name not like", value, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameIn(List<String> values) {
+            addCriterion("store_account_name in", values, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameNotIn(List<String> values) {
+            addCriterion("store_account_name not in", values, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameBetween(String value1, String value2) {
+            addCriterion("store_account_name between", value1, value2, "storeAccountName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreAccountNameNotBetween(String value1, String value2) {
+            addCriterion("store_account_name not between", value1, value2, "storeAccountName");
+            return (Criteria) this;
+        }
+
         public Criteria andStoreAccountIdIsNull() {
             addCriterion("store_account_id is null");
             return (Criteria) this;

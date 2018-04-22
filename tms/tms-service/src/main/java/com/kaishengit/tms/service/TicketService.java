@@ -45,4 +45,11 @@ public interface TicketService {
      * @throws ServiceException 保存失败时抛出的异常
      */
     void saveTicketOutRecord(TicketOutRecord ticketOutRecord) throws ServiceException;
+
+    /**
+     * 根据当前页号查询所有的下发记录
+     * @param pageNo
+     * @return
+     */
+    PageInfo<TicketOutRecord> findTicketOutRecordByPageNo(Integer pageNo);
 }

@@ -14,6 +14,7 @@
     <result column="total_num" jdbcType="INTEGER" property="totalNum" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="store_account_name" jdbcType="VARCHAR" property="storeAccountName" />
     <result column="store_account_id" jdbcType="INTEGER" property="storeAccountId" />
     <result column="out_account_id" jdbcType="INTEGER" property="outAccountId" />
     <result column="finance_account_id" jdbcType="INTEGER" property="financeAccountId" />
@@ -79,8 +80,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, create_time, update_time, out_account_name, finance_account_name, state, content, 
-    begin_ticket_num, end_ticket_num, total_num, price, total_price, store_account_id, 
-    out_account_id, finance_account_id, pay_type
+    begin_ticket_num, end_ticket_num, total_num, price, total_price, store_account_name, 
+    store_account_id, out_account_id, finance_account_id, pay_type
   </sql>
   <select id="selectByExample" parameterType="com.kaishengit.tms.entity.TicketOutRecordExample" resultMap="BaseResultMap">
     select
@@ -117,14 +118,14 @@
       out_account_name, finance_account_name, state, 
       content, begin_ticket_num, end_ticket_num, 
       total_num, price, total_price, 
-      store_account_id, out_account_id, finance_account_id, 
-      pay_type)
+      store_account_name, store_account_id, out_account_id, 
+      finance_account_id, pay_type)
     values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{outAccountName,jdbcType=VARCHAR}, #{financeAccountName,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{beginTicketNum,jdbcType=VARCHAR}, #{endTicketNum,jdbcType=VARCHAR}, 
       #{totalNum,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, 
-      #{storeAccountId,jdbcType=INTEGER}, #{outAccountId,jdbcType=INTEGER}, #{financeAccountId,jdbcType=INTEGER}, 
-      #{payType,jdbcType=VARCHAR})
+      #{storeAccountName,jdbcType=VARCHAR}, #{storeAccountId,jdbcType=INTEGER}, #{outAccountId,jdbcType=INTEGER}, 
+      #{financeAccountId,jdbcType=INTEGER}, #{payType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kaishengit.tms.entity.TicketOutRecord">
     insert into ticket_out_record
@@ -164,6 +165,9 @@
       </if>
       <if test="totalPrice != null">
         total_price,
+      </if>
+      <if test="storeAccountName != null">
+        store_account_name,
       </if>
       <if test="storeAccountId != null">
         store_account_id,
@@ -214,6 +218,9 @@
       </if>
       <if test="totalPrice != null">
         #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="storeAccountName != null">
+        #{storeAccountName,jdbcType=VARCHAR},
       </if>
       <if test="storeAccountId != null">
         #{storeAccountId,jdbcType=INTEGER},
@@ -274,6 +281,9 @@
       <if test="record.totalPrice != null">
         total_price = #{record.totalPrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.storeAccountName != null">
+        store_account_name = #{record.storeAccountName,jdbcType=VARCHAR},
+      </if>
       <if test="record.storeAccountId != null">
         store_account_id = #{record.storeAccountId,jdbcType=INTEGER},
       </if>
@@ -305,6 +315,7 @@
       total_num = #{record.totalNum,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
       total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      store_account_name = #{record.storeAccountName,jdbcType=VARCHAR},
       store_account_id = #{record.storeAccountId,jdbcType=INTEGER},
       out_account_id = #{record.outAccountId,jdbcType=INTEGER},
       finance_account_id = #{record.financeAccountId,jdbcType=INTEGER},
@@ -349,6 +360,9 @@
       <if test="totalPrice != null">
         total_price = #{totalPrice,jdbcType=DECIMAL},
       </if>
+      <if test="storeAccountName != null">
+        store_account_name = #{storeAccountName,jdbcType=VARCHAR},
+      </if>
       <if test="storeAccountId != null">
         store_account_id = #{storeAccountId,jdbcType=INTEGER},
       </if>
@@ -377,6 +391,7 @@
       total_num = #{totalNum,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       total_price = #{totalPrice,jdbcType=DECIMAL},
+      store_account_name = #{storeAccountName,jdbcType=VARCHAR},
       store_account_id = #{storeAccountId,jdbcType=INTEGER},
       out_account_id = #{outAccountId,jdbcType=INTEGER},
       finance_account_id = #{financeAccountId,jdbcType=INTEGER},

@@ -8,14 +8,15 @@ import com.kaishengit.tms.entity.TicketExample;
 import com.kaishengit.tms.entity.TicketInRecord;
 import com.kaishengit.tms.entity.TicketInRecordExample;
 import com.kaishengit.tms.entity.TicketOutRecord;
+import com.kaishengit.tms.entity.TicketOutRecordExample;
+import com.kaishengit.tms.entity.TicketStore;
 import com.kaishengit.tms.exception.ServiceException;
 import com.kaishengit.tms.mapper.TicketInRecordMapper;
 import com.kaishengit.tms.mapper.TicketMapper;
 import com.kaishengit.tms.mapper.TicketOutRecordMapper;
+import com.kaishengit.tms.mapper.TicketStoreMapper;
 import com.kaishengit.tms.service.TicketService;
 import com.kaishengit.tms.util.shiro.ShiroUtil;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,15 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     private TicketInRecordMapper ticketInRecordMapper;
+
     @Autowired
     private TicketMapper ticketMapper;
+
     @Autowired
     private TicketOutRecordMapper ticketOutRecordMapper;
+
+    @Autowired
+    private TicketStoreMapper ticketStoreMapper;
 
     /**
      * 保存一个入库记录
@@ -183,6 +189,9 @@ public class TicketServiceImpl implements TicketService {
             }
         }
 
+        //获取当前下发的售票点对象，并赋值售票点名称
+        TicketStore ticketStore = ticketStoreMapper.selectByPrimaryKey(ticketOutRecord.getStoreAccountId());
+        ticketOutRecord.setStoreAccountName(ticketStore.getStoreName());
         //选择的总数量
         int totalSize = ticketList.size();
         //总价格
@@ -201,5 +210,22 @@ public class TicketServiceImpl implements TicketService {
         ticketOutRecordMapper.insertSelective(ticketOutRecord);
 
         logger.info("新增年票下发记录：{}",ticketOutRecord);
+    }
+
+    /**
+     * 根据当前页号查询所有的下发记录
+     *
+     * @param pageNo
+     * @return
+     */
+    @Override
+    public PageInfo<TicketOutRecord> findTicketOutRecordByPageNo(Integer pageNo) {
+        PageHelper.startPage(pageNo,15);
+
+        TicketOutRecordExample ticketOutRecordExample = new TicketOutRecordExample();
+        ticketOutRecordExample.setOrderByClause("id desc");
+
+        List<TicketOutRecord> ticketOutRecordList = ticketOutRecordMapper.selectByExample(ticketOutRecordExample);
+        return new PageInfo<>(ticketOutRecordList);
     }
 }

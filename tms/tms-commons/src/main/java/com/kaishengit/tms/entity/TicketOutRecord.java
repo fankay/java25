@@ -69,10 +69,24 @@ public class TicketOutRecord implements Serializable {
      */
     private BigDecimal totalPrice;
 
+    /**
+     * 下发的售票点名称
+     */
+    private String storeAccountName;
+
+    /**
+     * 下发售票点ID
+     */
     private Integer storeAccountId;
 
+    /**
+     * 下发人ID
+     */
     private Integer outAccountId;
 
+    /**
+     * 收款人ID
+     */
     private Integer financeAccountId;
 
     /**
@@ -178,6 +192,14 @@ public class TicketOutRecord implements Serializable {
         this.totalPrice = totalPrice;
     }
 
+    public String getStoreAccountName() {
+        return storeAccountName;
+    }
+
+    public void setStoreAccountName(String storeAccountName) {
+        this.storeAccountName = storeAccountName;
+    }
+
     public Integer getStoreAccountId() {
         return storeAccountId;
     }
@@ -208,27 +230,5 @@ public class TicketOutRecord implements Serializable {
 
     public void setPayType(String payType) {
         this.payType = payType;
-    }
-
-    @Override
-    public String toString() {
-        return "TicketOutRecord{" +
-                "id=" + id +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", outAccountName='" + outAccountName + '\'' +
-                ", financeAccountName='" + financeAccountName + '\'' +
-                ", state='" + state + '\'' +
-                ", content='" + content + '\'' +
-                ", beginTicketNum='" + beginTicketNum + '\'' +
-                ", endTicketNum='" + endTicketNum + '\'' +
-                ", totalNum=" + totalNum +
-                ", price=" + price +
-                ", totalPrice=" + totalPrice +
-                ", storeAccountId=" + storeAccountId +
-                ", outAccountId=" + outAccountId +
-                ", financeAccountId=" + financeAccountId +
-                ", payType='" + payType + '\'' +
-                '}';
     }
 }

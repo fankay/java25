@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -58,8 +60,31 @@
                                 <th></th>
                             </tr>
                         </thead>
+                        <tbody>
+                        <c:forEach items="${page.list}" var="record">
+                            <tr>
+                                <td><fmt:formatDate value="${record.createTime}"/></td>
+                                <td>${record.storeAccountName}</td>
+                                <td>${record.content}</td>
+                                <td>${record.beginTicketNum}</td>
+                                <td>${record.endTicketNum}</td>
+                                <td>${record.totalNum}</td>
+                                <td>${record.price}</td>
+                                <td>${record.totalPrice}</td>
+                                <td>${record.payType}</td>
+                                <td>${record.outAccountName}</td>
+                                <td>
+                                    <span class="label ${record.state == '未支付' ? 'label-danger' : 'label-success'}">${record.state}</span>
+                                </td>
+                                <td>${record.financeAccountName}</td>
+                                <td></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
                     </table>
-                    
+                    <c:if test="${pageInfo.pages > 1}">
+                        <ul id="pagination-demo" class="pagination pull-right"></ul>
+                    </c:if>
                 </div>
             </div>
         </section>
@@ -70,5 +95,19 @@
 <!-- ./wrapper -->
 
 <%@include file="../../include/js.jsp"%>
+<script src="/static/plugins/page/jquery.twbsPagination.min.js"></script>
+<script>
+    $(function () {
+        $('#pagination-demo').twbsPagination({
+            totalPages: ${pageInfo.pages},
+            visiblePages: 10,
+            first:'首页',
+            last:'末页',
+            prev:'←',
+            next:'→',
+            href:"?p={{number}}"
+        });
+    });
+</script>
 </body>
 </html>

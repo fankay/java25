@@ -100,7 +100,11 @@ public class TicketController {
      * @return
      */
     @GetMapping("/out")
-    public String ticketOutHome() {
+    public String ticketOutHome(Model model,
+                               @RequestParam(name = "p",required = false,defaultValue = "1") Integer pageNo) {
+        PageInfo<TicketOutRecord> pageInfo = ticketService.findTicketOutRecordByPageNo(pageNo);
+
+        model.addAttribute("page",pageInfo);
         return "ticket/out/home";
     }
 
