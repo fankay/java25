@@ -1,6 +1,7 @@
 package com.kaishengit.tms.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.kaishengit.tms.dto.ResponseBean;
 import com.kaishengit.tms.entity.TicketInRecord;
 import com.kaishengit.tms.entity.TicketOutRecord;
 import com.kaishengit.tms.entity.TicketStore;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -131,5 +133,17 @@ public class TicketController {
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
         }
         return "redirect:/ticket/out";
+    }
+
+    /**
+     * 删除下发单
+     * @param id
+     * @return
+     */
+    @GetMapping("/out/{id:\\d+}/del")
+    @ResponseBody
+    public ResponseBean delTicketOut(@PathVariable Integer id) {
+        ticketService.delOutRecordById(id);
+        return ResponseBean.success();
     }
 }

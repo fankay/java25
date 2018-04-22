@@ -52,4 +52,10 @@ public interface TicketService {
      * @return
      */
     PageInfo<TicketOutRecord> findTicketOutRecordByPageNo(Integer pageNo);
+
+    /**
+     * 根据主键删除下发单
+     * @param id
+     */
+    void delOutRecordById(Integer id);
 }

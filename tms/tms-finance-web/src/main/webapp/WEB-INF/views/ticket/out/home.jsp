@@ -61,6 +61,11 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <c:if test="${empty page.list}">
+                            <tr>
+                                <td colspan="13">暂无记录</td>
+                            </tr>
+                        </c:if>
                         <c:forEach items="${page.list}" var="record">
                             <tr>
                                 <td><fmt:formatDate value="${record.createTime}"/></td>
@@ -77,7 +82,11 @@
                                     <span class="label ${record.state == '未支付' ? 'label-danger' : 'label-success'}">${record.state}</span>
                                 </td>
                                 <td>${record.financeAccountName}</td>
-                                <td></td>
+                                <td>
+                                    <c:if test="${record.state == '未支付'}">
+                                        <a href="javascript:;" rel="${record.id}" class="del_link" title="取消"><i class="fa fa-trash text-danger"></i></a>
+                                    </c:if>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -96,16 +105,32 @@
 
 <%@include file="../../include/js.jsp"%>
 <script src="/static/plugins/page/jquery.twbsPagination.min.js"></script>
+<script src="/static/plugins/layer/layer.js"></script>
 <script>
     $(function () {
         $('#pagination-demo').twbsPagination({
-            totalPages: ${pageInfo.pages},
+            totalPages: ${page.pages},
             visiblePages: 10,
             first:'首页',
             last:'末页',
             prev:'←',
             next:'→',
             href:"?p={{number}}"
+        });
+
+        $(".del_link").click(function () {
+            var id = $(this).attr("rel");
+            layer.confirm("确定要取消吗",function (index) {
+                layer.close(index);
+                $.get("/ticket/out/"+id+"/del").done(function (result) {
+                    if(result.status == 'success') {
+                        layer.msg("删除成功");
+                        window.history.go(0);
+                    }
+                }).error(function () {
+                    layer.msg("服务器异常");
+                });
+            });
         });
     });
 </script>

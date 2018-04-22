@@ -228,4 +228,20 @@ public class TicketServiceImpl implements TicketService {
         List<TicketOutRecord> ticketOutRecordList = ticketOutRecordMapper.selectByExample(ticketOutRecordExample);
         return new PageInfo<>(ticketOutRecordList);
     }
+
+    /**
+     * 根据主键删除下发单
+     *
+     * @param id
+     */
+    @Override
+    public void delOutRecordById(Integer id) {
+        TicketOutRecord record = ticketOutRecordMapper.selectByPrimaryKey(id);
+        if(record != null) {
+            //只有未支付的才可以删除
+            if(TicketOutRecord.STATE_NO_PAY.equals(record.getState())) {
+                ticketOutRecordMapper.deleteByPrimaryKey(id);
+            }
+        }
+    }
 }
