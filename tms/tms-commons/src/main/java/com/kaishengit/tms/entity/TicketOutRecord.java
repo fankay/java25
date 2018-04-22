@@ -8,6 +8,10 @@ import java.util.Date;
  * @author 
  */
 public class TicketOutRecord implements Serializable {
+
+    public static final String STATE_NO_PAY = "未支付";
+    public static final String STATE_PAY = "已支付";
+
     private Integer id;
 
     /**
@@ -204,5 +208,27 @@ public class TicketOutRecord implements Serializable {
 
     public void setPayType(String payType) {
         this.payType = payType;
+    }
+
+    @Override
+    public String toString() {
+        return "TicketOutRecord{" +
+                "id=" + id +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", outAccountName='" + outAccountName + '\'' +
+                ", financeAccountName='" + financeAccountName + '\'' +
+                ", state='" + state + '\'' +
+                ", content='" + content + '\'' +
+                ", beginTicketNum='" + beginTicketNum + '\'' +
+                ", endTicketNum='" + endTicketNum + '\'' +
+                ", totalNum=" + totalNum +
+                ", price=" + price +
+                ", totalPrice=" + totalPrice +
+                ", storeAccountId=" + storeAccountId +
+                ", outAccountId=" + outAccountId +
+                ", financeAccountId=" + financeAccountId +
+                ", payType='" + payType + '\'' +
+                '}';
     }
 }

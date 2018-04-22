@@ -131,4 +131,16 @@ public class TicketStoreServiceImpl implements TicketStoreService {
 
         ticketStoreMapper.updateByPrimaryKeySelective(ticketStore);
     }
+
+    /**
+     * 查找所有的售票点
+     *
+     * @return
+     */
+    @Override
+    public List<TicketStore> findAllTicketStore() {
+        TicketStoreExample ticketStoreExample = new TicketStoreExample();
+        ticketStoreExample.setOrderByClause("id desc");
+        return ticketStoreMapper.selectByExample(ticketStoreExample);
+    }
 }

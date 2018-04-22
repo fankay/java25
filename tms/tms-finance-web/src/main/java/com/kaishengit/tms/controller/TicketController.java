@@ -2,8 +2,11 @@ package com.kaishengit.tms.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.kaishengit.tms.entity.TicketInRecord;
+import com.kaishengit.tms.entity.TicketOutRecord;
+import com.kaishengit.tms.entity.TicketStore;
 import com.kaishengit.tms.exception.ServiceException;
 import com.kaishengit.tms.service.TicketService;
+import com.kaishengit.tms.service.TicketStoreService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,6 +27,8 @@ public class TicketController {
 
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private TicketStoreService ticketStoreService;
 
     /**
      * 年票入库首页
@@ -87,5 +93,39 @@ public class TicketController {
         Map<String,Long> resultMap = ticketService.countTicketByState();
         model.addAttribute("resultMap",resultMap);
         return "ticket/chart/home";
+    }
+
+    /**
+     * 年票下发首页
+     * @return
+     */
+    @GetMapping("/out")
+    public String ticketOutHome() {
+        return "ticket/out/home";
+    }
+
+    /**
+     * 新增年票下发
+     * @return
+     */
+    @GetMapping("/out/new")
+    public String newTicketOut(Model model) {
+        String today = DateTime.now().toString("YYYY-MM-dd");
+        //查找所有的售票点
+        List<TicketStore> ticketStoreList = ticketStoreService.findAllTicketStore();
+
+        model.addAttribute("today",today);
+        model.addAttribute("ticketStoreList",ticketStoreList);
+        return "ticket/out/new";
+    }
+
+    @PostMapping("/out/new")
+    public String newTicketOut(TicketOutRecord ticketOutRecord,RedirectAttributes redirectAttributes) {
+        try {
+            ticketService.saveTicketOutRecord(ticketOutRecord);
+        } catch (ServiceException ex) {
+            redirectAttributes.addFlashAttribute("message",ex.getMessage());
+        }
+        return "redirect:/ticket/out";
     }
 }

@@ -7,9 +7,11 @@ import com.kaishengit.tms.entity.Ticket;
 import com.kaishengit.tms.entity.TicketExample;
 import com.kaishengit.tms.entity.TicketInRecord;
 import com.kaishengit.tms.entity.TicketInRecordExample;
+import com.kaishengit.tms.entity.TicketOutRecord;
 import com.kaishengit.tms.exception.ServiceException;
 import com.kaishengit.tms.mapper.TicketInRecordMapper;
 import com.kaishengit.tms.mapper.TicketMapper;
+import com.kaishengit.tms.mapper.TicketOutRecordMapper;
 import com.kaishengit.tms.service.TicketService;
 import com.kaishengit.tms.util.shiro.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +45,8 @@ public class TicketServiceImpl implements TicketService {
     private TicketInRecordMapper ticketInRecordMapper;
     @Autowired
     private TicketMapper ticketMapper;
+    @Autowired
+    private TicketOutRecordMapper ticketOutRecordMapper;
 
     /**
      * 保存一个入库记录
@@ -155,5 +160,46 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Map<String, Long> countTicketByState() {
         return ticketMapper.countByState();
+    }
+
+    /**
+     * 保存新的年票下发记录
+     *
+     * @param ticketOutRecord 下发记录对象
+     * @throws ServiceException 保存失败时抛出的异常
+     */
+    @Override
+    public void saveTicketOutRecord(TicketOutRecord ticketOutRecord) throws ServiceException {
+        //判断当前票段内是否有非[已入库]状态的票，如果有则不能下发
+        TicketExample ticketExample = new TicketExample();
+        ticketExample.createCriteria()
+                .andTicketNumLessThanOrEqualTo(ticketOutRecord.getEndTicketNum())
+                .andTicketNumGreaterThanOrEqualTo(ticketOutRecord.getBeginTicketNum());
+        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
+
+        for(Ticket ticket : ticketList) {
+            if(!Ticket.TICKET_STATE_IN_STORE.equals(ticket.getTicketState())) {
+                throw new ServiceException("该票段内有已经下发的票，请重新选择");
+            }
+        }
+
+        //选择的总数量
+        int totalSize = ticketList.size();
+        //总价格
+        BigDecimal totalPrice = ticketOutRecord.getPrice().multiply(new BigDecimal(totalSize));
+        //当前登录的对象
+        Account account = shiroUtil.getCurrentAccount();
+
+        ticketOutRecord.setCreateTime(new Date());
+        ticketOutRecord.setContent(ticketOutRecord.getBeginTicketNum() + " - " + ticketOutRecord.getEndTicketNum());
+        ticketOutRecord.setOutAccountId(account.getId());
+        ticketOutRecord.setOutAccountName(account.getAccountName());
+        ticketOutRecord.setTotalNum(totalSize);
+        ticketOutRecord.setState(TicketOutRecord.STATE_NO_PAY);
+        ticketOutRecord.setTotalPrice(totalPrice);
+
+        ticketOutRecordMapper.insertSelective(ticketOutRecord);
+
+        logger.info("新增年票下发记录：{}",ticketOutRecord);
     }
 }

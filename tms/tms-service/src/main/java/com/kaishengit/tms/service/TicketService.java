@@ -2,6 +2,7 @@ package com.kaishengit.tms.service;
 
 import com.github.pagehelper.PageInfo;
 import com.kaishengit.tms.entity.TicketInRecord;
+import com.kaishengit.tms.entity.TicketOutRecord;
 import com.kaishengit.tms.exception.ServiceException;
 
 import java.util.Map;
@@ -38,4 +39,10 @@ public interface TicketService {
      */
     Map<String,Long> countTicketByState();
 
+    /**
+     * 保存新的年票下发记录
+     * @param ticketOutRecord 下发记录对象
+     * @throws ServiceException 保存失败时抛出的异常
+     */
+    void saveTicketOutRecord(TicketOutRecord ticketOutRecord) throws ServiceException;
 }
