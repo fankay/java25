@@ -58,4 +58,26 @@ public interface TicketService {
      * @param id
      */
     void delOutRecordById(Integer id);
+
+    /**
+     * 根据当前页号和查询参数查询下发列表
+     * @param pageNo 当前页号
+     * @param queryParam 查询参数集合
+     * @return
+     */
+    PageInfo<TicketOutRecord> findTicketOutRecordByPageNoAndQueryParam(Integer pageNo, Map<String, Object> queryParam);
+
+    /**
+     * 根据ID对对应的下发订单进行支付-财务结算
+     * @param id
+     * @param payType 支付类型
+     */
+    void payTicketOutRecord(Integer id, String payType);
+
+    /**
+     * 根据主键查找对应的下发单
+     * @param id
+     * @return
+     */
+    TicketOutRecord findTicketOutRecordById(Integer id);
 }

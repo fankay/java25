@@ -5,9 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.kaishengit.tms.entity.Account;
 import com.kaishengit.tms.entity.Ticket;
-import com.kaishengit.tms.entity.TicketExample;
 import com.kaishengit.tms.entity.TicketInRecord;
 import com.kaishengit.tms.entity.TicketInRecordExample;
 import com.kaishengit.tms.entity.TicketOutRecord;
@@ -20,6 +20,8 @@ import com.kaishengit.tms.mapper.TicketOutRecordMapper;
 import com.kaishengit.tms.mapper.TicketStoreMapper;
 import com.kaishengit.tms.service.TicketService;
 import com.kaishengit.tms.util.shiro.ShiroUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,6 @@ import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -223,13 +224,7 @@ public class TicketServiceImpl implements TicketService {
      */
     @Override
     public PageInfo<TicketOutRecord> findTicketOutRecordByPageNo(Integer pageNo) {
-        PageHelper.startPage(pageNo,15);
-
-        TicketOutRecordExample ticketOutRecordExample = new TicketOutRecordExample();
-        ticketOutRecordExample.setOrderByClause("id desc");
-
-        List<TicketOutRecord> ticketOutRecordList = ticketOutRecordMapper.selectByExample(ticketOutRecordExample);
-        return new PageInfo<>(ticketOutRecordList);
+        return findTicketOutRecordByPageNoAndQueryParam(pageNo,Maps.newHashMap());
     }
 
     /**
@@ -246,5 +241,74 @@ public class TicketServiceImpl implements TicketService {
                 ticketOutRecordMapper.deleteByPrimaryKey(id);
             }
         }
+    }
+
+    /**
+     * 根据当前页号和查询参数查询下发列表
+     *
+     * @param pageNo     当前页号
+     * @param queryParam 查询参数集合
+     * @return
+     */
+    @Override
+    public PageInfo<TicketOutRecord> findTicketOutRecordByPageNoAndQueryParam(Integer pageNo, Map<String, Object> queryParam) {
+        PageHelper.startPage(pageNo,15);
+
+        TicketOutRecordExample ticketOutRecordExample = new TicketOutRecordExample();
+        TicketOutRecordExample.Criteria criteria = ticketOutRecordExample.createCriteria();
+
+        String state = (String) queryParam.get("state");
+        if(StringUtils.isNotEmpty(state)) {
+            criteria.andStateEqualTo(state);
+        }
+        ticketOutRecordExample.setOrderByClause("id desc");
+
+        List<TicketOutRecord> ticketOutRecordList = ticketOutRecordMapper.selectByExample(ticketOutRecordExample);
+        return new PageInfo<>(ticketOutRecordList);
+    }
+
+    /**
+     * 根据ID对对应的下发订单进行支付-财务结算
+     *
+     * @param id
+     * @param payType
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void payTicketOutRecord(Integer id, String payType) {
+        TicketOutRecord ticketOutRecord = ticketOutRecordMapper.selectByPrimaryKey(id);
+        if(ticketOutRecord != null && TicketOutRecord.STATE_NO_PAY.equals(ticketOutRecord.getState())) {
+            ticketOutRecord.setPayType(payType);
+
+            Account account = shiroUtil.getCurrentAccount();
+            ticketOutRecord.setFinanceAccountId(account.getId());
+            ticketOutRecord.setFinanceAccountName(account.getAccountName());
+            ticketOutRecord.setState(TicketOutRecord.STATE_PAY);
+
+            //修改下发记录
+            ticketOutRecordMapper.updateByPrimaryKeySelective(ticketOutRecord);
+
+            //将对应的年票状态修改为【已下发】
+            List<Ticket> ticketList = ticketMapper.findByBeginNumAndEndNum(ticketOutRecord.getBeginTicketNum(),ticketOutRecord.getEndTicketNum());
+            for (Ticket ticket : ticketList) {
+                ticket.setTicketState(Ticket.TICKET_STATE_OUT_STORE);
+                ticket.setStoreAccountId(ticketOutRecord.getStoreAccountId());
+                ticket.setTicketOutTime(DateTime.now().toString("YYYY-MM-dd"));
+                ticket.setUpdateTime(new Date());
+
+                ticketMapper.updateByPrimaryKeySelective(ticket);
+            }
+        }
+    }
+
+    /**
+     * 根据主键查找对应的下发单
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public TicketOutRecord findTicketOutRecordById(Integer id) {
+        return ticketOutRecordMapper.selectByPrimaryKey(id);
     }
 }
