@@ -33,4 +33,10 @@ public interface TicketMapper {
     void batchInsert(@Param("ticketList") List<Ticket> ticketList);
 
     Map<String,Long> countByState();
+
+    List<Ticket> findByBeginNumAndEndNum(@Param("beginNum") String beginNum,@Param("endNum") String endNum);
+    List<Ticket> findByBeginNumAndEndNumAndState(@Param("beginNum") String beginNum,
+                                                 @Param("endNum") String endNum,
+                                                 @Param("state") String state);
+    void batchDeleteById(@Param("idList") List<Long> idList);
 }

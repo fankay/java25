@@ -2,6 +2,9 @@ package com.kaishengit.tms.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.kaishengit.tms.entity.Account;
 import com.kaishengit.tms.entity.Ticket;
 import com.kaishengit.tms.entity.TicketExample;
@@ -23,9 +26,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -140,19 +145,21 @@ public class TicketServiceImpl implements TicketService {
         TicketInRecord inRecord = ticketInRecordMapper.selectByPrimaryKey(id);
         if(inRecord != null) {
             //查找该记录对应的年票
-            TicketExample ticketExample = new TicketExample();
-            ticketExample.createCriteria()
-                    .andTicketNumGreaterThanOrEqualTo(inRecord.getBeginTicketNum())
-                    .andTicketNumLessThanOrEqualTo(inRecord.getEndTicketNum())
-                    .andTicketStateEqualTo(Ticket.TICKET_STATE_IN_STORE);
-            List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
+            List<Ticket> ticketList = ticketMapper.findByBeginNumAndEndNumAndState(inRecord.getBeginTicketNum(),inRecord.getEndTicketNum(),Ticket.TICKET_STATE_IN_STORE);
 
             //判断年票数量和入库记录总数量是否相同，如果不同，则表示有的年票状态已经发生修改，不能删除
             if(!inRecord.getTotalNum().equals(ticketList.size())) {
                 throw new ServiceException("该批次年票状态已经发生改变，不能删除");
             }
             //删除年票
-            ticketMapper.deleteByExample(ticketExample);
+            List<Long> idList = Lists.newArrayList(Collections2.transform(ticketList, new Function<Ticket, Long>() {
+                @Nullable
+                @Override
+                public Long apply(@Nullable Ticket f) {
+                    return f.getId();
+                }
+            }));
+            ticketMapper.batchDeleteById(idList);
             //删除年票入库记录
             ticketInRecordMapper.deleteByPrimaryKey(id);
         }
@@ -177,11 +184,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void saveTicketOutRecord(TicketOutRecord ticketOutRecord) throws ServiceException {
         //判断当前票段内是否有非[已入库]状态的票，如果有则不能下发
-        TicketExample ticketExample = new TicketExample();
-        ticketExample.createCriteria()
-                .andTicketNumLessThanOrEqualTo(ticketOutRecord.getEndTicketNum())
-                .andTicketNumGreaterThanOrEqualTo(ticketOutRecord.getBeginTicketNum());
-        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
+        List<Ticket> ticketList = ticketMapper.findByBeginNumAndEndNum(ticketOutRecord.getBeginTicketNum(),ticketOutRecord.getEndTicketNum());
 
         for(Ticket ticket : ticketList) {
             if(!Ticket.TICKET_STATE_IN_STORE.equals(ticket.getTicketState())) {
