@@ -3,9 +3,12 @@ package com.kaishengit.tms.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kaishengit.tms.entity.StoreAccount;
+import com.kaishengit.tms.entity.StoreAccountExample;
+import com.kaishengit.tms.entity.StoreLoginLog;
 import com.kaishengit.tms.entity.TicketStore;
 import com.kaishengit.tms.entity.TicketStoreExample;
 import com.kaishengit.tms.mapper.StoreAccountMapper;
+import com.kaishengit.tms.mapper.StoreLoginLogMapper;
 import com.kaishengit.tms.mapper.TicketStoreMapper;
 import com.kaishengit.tms.service.TicketStoreService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -30,6 +33,8 @@ public class TicketStoreServiceImpl implements TicketStoreService {
     private TicketStoreMapper ticketStoreMapper;
     @Autowired
     private StoreAccountMapper storeAccountMapper;
+    @Autowired
+    private StoreLoginLogMapper storeLoginLogMapper;
 
     /**
      * 创建新的售票点
@@ -142,5 +147,33 @@ public class TicketStoreServiceImpl implements TicketStoreService {
         TicketStoreExample ticketStoreExample = new TicketStoreExample();
         ticketStoreExample.setOrderByClause("id desc");
         return ticketStoreMapper.selectByExample(ticketStoreExample);
+    }
+
+    /**
+     * 根据账号（手机号码）查找售票点登录账号对象
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    public StoreAccount findStoreAccountByName(String name) {
+        StoreAccountExample example = new StoreAccountExample();
+        example.createCriteria().andStoreAccountEqualTo(name);
+
+        List<StoreAccount> storeAccountList = storeAccountMapper.selectByExample(example);
+        if(storeAccountList != null && !storeAccountList.isEmpty()) {
+            return storeAccountList.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * 保存售票点的登录日志
+     *
+     * @param storeLoginLog
+     */
+    @Override
+    public void saveStoreAccountLoginLog(StoreLoginLog storeLoginLog) {
+        storeLoginLogMapper.insertSelective(storeLoginLog);
     }
 }
