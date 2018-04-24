@@ -7,7 +7,6 @@ import com.kaishengit.tms.entity.StoreAccount;
 import com.kaishengit.tms.entity.TicketStore;
 import com.kaishengit.tms.fileStore.QiniuStore;
 import com.kaishengit.tms.service.TicketStoreService;
-import com.qiniu.util.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

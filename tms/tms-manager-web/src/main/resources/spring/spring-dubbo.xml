@@ -3,16 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <!--服务名称-->
-    <dubbo:application name="UserServiceProvider"/>
+    <dubbo:application name="TmsManagerWeb"/>
 
-    <!--注册中心-->
     <dubbo:registry address="zookeeper://192.168.1.112:2181"/>
-    <!--配置网卡和端口-->
-    <dubbo:protocol host="192.168.1.112" port="20882"/>
 
-    <!--暴露服务给Dubbo-->
-    <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl"/>
-    <dubbo:service interface="com.kaishengit.service.UserService" ref="userService"/>
+    <!--引用服务-->
+    <dubbo:reference interface="com.kaishengit.tms.service.AccountService" id="accountService"/>
+    <dubbo:reference interface="com.kaishengit.tms.service.RolePermissionService" id="rolePermissionService"/>
+    <dubbo:reference interface="com.kaishengit.tms.service.TicketStoreService" id="ticketStoreService"/>
+
 
 </beans>
