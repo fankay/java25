@@ -311,4 +311,15 @@ public class TicketServiceImpl implements TicketService {
     public TicketOutRecord findTicketOutRecordById(Integer id) {
         return ticketOutRecordMapper.selectByPrimaryKey(id);
     }
+
+    /**
+     * 根据售票点ID查询年票数量
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Map<String, Long> countTicketByStateAndStoreAccountId(Integer id) {
+        return ticketMapper.countByStateAndStoreAccountId(id);
+    }
 }

@@ -5,8 +5,10 @@
 
     <dubbo:application name="Tms-Salse-Web"/>
 
+    <!--注册中心的地址-->
     <dubbo:registry address="zookeeper://192.168.135.170:2181"/>
 
     <!--dubbo 服务依赖-->
-    <dubbo:reference interface="com.kaishengit.tms.service.TicketStoreService" id="ticketService"/>
+    <dubbo:reference interface="com.kaishengit.tms.service.TicketStoreService" id="ticketStoreService"/>
+    <dubbo:reference interface="com.kaishengit.tms.service.TicketService" id="ticketService"/>
 </beans>

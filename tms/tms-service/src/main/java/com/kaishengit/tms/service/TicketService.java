@@ -80,4 +80,11 @@ public interface TicketService {
      * @return
      */
     TicketOutRecord findTicketOutRecordById(Integer id);
+
+    /**
+     * 根据售票点ID查询年票数量
+     * @param id
+     * @return
+     */
+    Map<String,Long> countTicketByStateAndStoreAccountId(Integer id);
 }

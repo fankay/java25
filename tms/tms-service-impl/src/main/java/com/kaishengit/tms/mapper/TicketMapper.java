@@ -34,6 +34,8 @@ public interface TicketMapper {
 
     Map<String,Long> countByState();
 
+    Map<String,Long> countByStateAndStoreAccountId(Integer storeAccountId);
+
     List<Ticket> findByBeginNumAndEndNum(@Param("beginNum") String beginNum,@Param("endNum") String endNum);
     List<Ticket> findByBeginNumAndEndNumAndState(@Param("beginNum") String beginNum,
                                                  @Param("endNum") String endNum,

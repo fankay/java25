@@ -50,6 +50,7 @@
                 /favicon.ico = anon
                 /static/** = anon
                 /logout = logout
+                /file/download = anon
             </value>
         </property>
     </bean>

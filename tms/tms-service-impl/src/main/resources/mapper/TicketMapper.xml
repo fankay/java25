@@ -245,6 +245,17 @@
         AND
           ticket_state = #{state}
     </select>
+    <select id="countByStateAndStoreAccountId" resultType="java.util.Map">
+        SELECT
+            count(*) as total,
+            count(case when ticket_state = '已下发' then 1 end) AS out_num,
+            count(case when ticket_state = '已销售' then 1 end) AS sale_num,
+            count(case when ticket_state = '已挂失' then 1 end) AS lost_num,
+            count(case when ticket_state = '已过期' then 1 end) AS outtime_num
+        FROM
+            tickets
+        where store_account_id = #{storeAccountId}
+    </select>
     <update id="updateByExampleSelective" parameterType="map">
         update tickets
         <set>

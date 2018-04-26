@@ -11,7 +11,7 @@
             <li class="${param.menu == 'home' ? 'active' : ''}"><a href="/home"><i class="fa fa-home"></i> <span>首页</span></a></li>
 
             <li class="header">销售管理</li>
-            <li class="${param.menu == 'ticket_storage' ? 'active' : ''}"><a href="/ticket/storage"><i class="fa fa-circle-o"></i> <span>年票办理</span></a></li>
+            <li class="${param.menu == 'ticket_sales_new' ? 'active' : ''}"><a href="/ticket/sales/new"><i class="fa fa-circle-o"></i> <span>年票办理</span></a></li>
             <li class="${param.menu == 'ticket_out' ? 'active' : ''}"><a href="/ticket/out"><i class="fa fa-circle-o"></i> <span>年票续费</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i> <span>年票挂失</span></a></li>
             <li class="${param.menu == 'ticket_chart' ? 'active' : ''}"><a href="/ticket/chart"><i class="fa fa-circle-o"></i> <span>年票解挂</span></a></li>
