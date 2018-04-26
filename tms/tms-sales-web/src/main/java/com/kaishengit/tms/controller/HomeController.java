@@ -30,9 +30,6 @@ public class HomeController {
 
     private Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    @Autowired
-    private AccountService accountService;
-
     /**
      * 系统登录页面
      * @return
