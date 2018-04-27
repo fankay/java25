@@ -8,6 +8,11 @@ import java.util.Date;
  * @author 
  */
 public class TicketOrder implements Serializable {
+
+    public static final String ORDER_TYPE_NEW = "新办订单";
+    public static final String ORDER_TYPE_RENEW = "续费订单";
+    public static final String ORDER_TYPE_REPLACE = "补办订单";
+
     private Long id;
 
     /**

@@ -1,10 +1,13 @@
 package com.kaishengit.tms.service;
 
 import com.github.pagehelper.PageInfo;
+import com.kaishengit.tms.entity.Customer;
 import com.kaishengit.tms.entity.TicketInRecord;
 import com.kaishengit.tms.entity.TicketOutRecord;
+import com.kaishengit.tms.entity.TicketStore;
 import com.kaishengit.tms.exception.ServiceException;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -87,4 +90,14 @@ public interface TicketService {
      * @return
      */
     Map<String,Long> countTicketByStateAndStoreAccountId(Integer id);
+
+    /**
+     * 销售年票
+     * @param customer 销售年票的客户对象
+     * @param ticketNum 年票票号
+     * @param ticketStore 当前售票点
+     * @param price 销售价格
+     * @throws ServiceException 销售失败抛出异常
+     */
+    void salesTicket(Customer customer, String ticketNum, TicketStore ticketStore, BigDecimal price) throws ServiceException;
 }
