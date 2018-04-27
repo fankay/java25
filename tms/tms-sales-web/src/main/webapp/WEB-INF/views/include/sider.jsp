@@ -1,4 +1,5 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- 左侧菜单栏 -->
 <aside class="main-sidebar">
@@ -17,6 +18,18 @@
             <li class="${param.menu == 'ticket_chart' ? 'active' : ''}"><a href="/ticket/chart"><i class="fa fa-circle-o"></i> <span>年票解挂</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i> <span>年票补办</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i> <span>销售统计</span></a></li>
+            <li class="treeview ${fn:startsWith(param.menu, 'search') ? 'active' : ''}">
+                <a href="javascript:;">
+                    <i class="fa fa-search"></i> <span>查询</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="${param.menu == 'search_ticket' ? 'active' : ''}"><a href="/search/ticket"><i class="fa fa-circle-o"></i> 查询年票</a></li>
+                    <li><a href="/search/customer"><i class="fa fa-circle-o"></i> 查询客户</a></li>
+                </ul>
+            </li>
 
 
 

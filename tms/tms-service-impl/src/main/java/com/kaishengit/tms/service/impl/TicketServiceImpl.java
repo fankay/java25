@@ -428,4 +428,19 @@ public class TicketServiceImpl implements TicketService {
 
 
     }
+
+    /**
+     * 根据年票号码查询年票
+     *
+     * @param ticketNum
+     * @return
+     */
+    @Override
+    public Ticket findTicketByTicketNum(String ticketNum) {
+        TicketExample ticketExample = new TicketExample();
+        ticketExample.createCriteria().andTicketNumEqualTo(ticketNum);
+
+        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
+        return (ticketList == null || ticketList.isEmpty()) ? null : ticketList.get(0);
+    }
 }

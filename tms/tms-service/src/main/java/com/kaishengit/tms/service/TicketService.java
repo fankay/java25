@@ -2,6 +2,7 @@ package com.kaishengit.tms.service;
 
 import com.github.pagehelper.PageInfo;
 import com.kaishengit.tms.entity.Customer;
+import com.kaishengit.tms.entity.Ticket;
 import com.kaishengit.tms.entity.TicketInRecord;
 import com.kaishengit.tms.entity.TicketOutRecord;
 import com.kaishengit.tms.entity.TicketStore;
@@ -100,4 +101,11 @@ public interface TicketService {
      * @throws ServiceException 销售失败抛出异常
      */
     void salesTicket(Customer customer, String ticketNum, TicketStore ticketStore, BigDecimal price) throws ServiceException;
+
+    /**
+     * 根据年票号码查询年票
+     * @param ticketNum
+     * @return
+     */
+    Ticket findTicketByTicketNum(String ticketNum);
 }
