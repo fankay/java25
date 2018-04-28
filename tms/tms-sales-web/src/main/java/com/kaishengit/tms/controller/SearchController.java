@@ -28,18 +28,17 @@ public class SearchController {
 
     @GetMapping("/ticket")
     public String searchTicket(@RequestParam(required = false,defaultValue = "") String ticketNum,
-                               Model model,
-                               RedirectAttributes redirectAttributes) {
+                               Model model) {
         if(StringUtils.isNotEmpty(ticketNum)) {
             Ticket ticket = ticketService.findTicketByTicketNum(ticketNum);
             if(ticket == null) {
-                redirectAttributes.addFlashAttribute("message","该年票不存在");
+                model.addAttribute("message","该年票不存在");
             } else {
                 TicketStore ticketStore = shiroUtil.getCurrentAccount();
                 if(ticket.getStoreAccountId().equals(ticketStore.getId())) {
                     model.addAttribute("ticket",ticket);
                 } else {
-                    redirectAttributes.addFlashAttribute("message","该年票不属于该售票点，查询失败");
+                    model.addAttribute("message","该年票不属于该售票点，查询失败");
                 }
             }
         }

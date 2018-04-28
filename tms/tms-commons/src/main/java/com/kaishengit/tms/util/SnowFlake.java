@@ -91,8 +91,8 @@ public class SnowFlake {
         return System.currentTimeMillis();
     }
 
-   /* public static void main(String[] args) {
-        SnowFlake snowFlake = new SnowFlake(2, 3);
+    /*public static void main(String[] args) {
+        SnowFlake snowFlake = new SnowFlake(1, 1);
 
         for (int i = 0; i < (1 << 12); i++) {
             System.out.println(snowFlake.nextId());
