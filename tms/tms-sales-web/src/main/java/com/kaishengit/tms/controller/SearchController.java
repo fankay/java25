@@ -44,4 +44,9 @@ public class SearchController {
         }
         return "search/ticket";
     }
+
+    @GetMapping("/customer")
+    public String searchCustomer(@RequestParam(required = false,defaultValue = "") String cardId) {
+        return "search/customer";
+    }
 }
