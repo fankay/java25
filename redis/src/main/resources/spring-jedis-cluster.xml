@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--0. 连接池的配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxWaitMillis" value="5000"/>
+        <property name="maxTotal" value="20"/>
+        <property name="minIdle" value="5"/>
+        <property name="maxIdle" value="10"/>
+    </bean>
+
+    <!--1.配置主机和端口对象-->
+    <bean id="host6001" class="redis.clients.jedis.HostAndPort">
+        <constructor-arg name="host" value="192.168.135.174"/>
+        <constructor-arg name="port" value="6001"/>
+    </bean>
+    <bean id="host6002" class="redis.clients.jedis.HostAndPort">
+        <constructor-arg name="host" value="192.168.135.174"/>
+        <constructor-arg name="port" value="6002"/>
+    </bean>
+    <bean id="host6003" class="redis.clients.jedis.HostAndPort">
+        <constructor-arg name="host" value="192.168.135.174"/>
+        <constructor-arg name="port" value="6003"/>
+    </bean>
+    <bean id="host6004" class="redis.clients.jedis.HostAndPort">
+        <constructor-arg name="host" value="192.168.135.174"/>
+        <constructor-arg name="port" value="6004"/>
+    </bean>
+    <bean id="host6005" class="redis.clients.jedis.HostAndPort">
+        <constructor-arg name="host" value="192.168.135.174"/>
+        <constructor-arg name="port" value="6005"/>
+    </bean>
+    <bean id="host6006" class="redis.clients.jedis.HostAndPort">
+        <constructor-arg name="host" value="192.168.135.174"/>
+        <constructor-arg name="port" value="6006"/>
+    </bean>
+
+    <!--2. 创建JedisCluster对象-->
+    <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
+        <constructor-arg name="nodes">
+            <set>
+                <ref bean="host6001"/>
+                <ref bean="host6002"/>
+                <ref bean="host6003"/>
+                <ref bean="host6004"/>
+                <ref bean="host6005"/>
+                <ref bean="host6006"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+
+</beans>
