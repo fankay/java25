@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--1. 将任务类放入容器-->
+    <bean id="myJob" class="com.kaishengit.spring.quartz.SpringQuartzJob"/>
+
+    <!--2. 创建JobDetail对象-->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <!--是否是固定重复的任务-->
+        <property name="durability" value="true"/>
+        <!--任务的实现类-->
+        <property name="jobClass" value="com.kaishengit.spring.quartz.CheckTicketJob"/>
+        <!--给Job传递值-->
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="ticketState" value="已销售"/>
+            </map>
+        </property>
+    </bean>
+   <!-- <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        &lt;!&ndash;定义任务对象&ndash;&gt;
+        <property name="targetObject" ref="myJob"/>
+        &lt;!&ndash;定义执行任务的方法&ndash;&gt;
+        <property name="targetMethod" value="sayHello"/>
+    </bean>-->
+
+    <!--3. 定义Trigger-->
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!--cron表达式-->
+        <property name="cronExpression" value="0/10 * * * * ?"/>
+        <!--jobDetail-->
+        <property name="jobDetail" ref="jobDetail"/>
+    </bean>
+
+    <!--4. 定义调度器-->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <!--设置Spring容器-->
+        <property name="applicationContextSchedulerContextKey" value="applicationContext"/>
+        <!--持久化：定义数据库练级池-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--事务管理器-->
+        <property name="transactionManager" ref="transactionManager"/>
+        <!--quartz的配置文件-->
+        <property name="configLocation" value="classpath:config/quartz.properties"/>
+        <!--覆盖已经存在的任务：固定时间执行的任务-->
+        <property name="overwriteExistingJobs" value="true"/>
+
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>
