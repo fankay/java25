@@ -111,9 +111,9 @@
     <delete id="batchDeleteById">
         delete from tickets
         where id in (
-          <foreach collection="idList" item="id" separator=",">
-              #{id}
-          </foreach>
+        <foreach collection="idList" item="id" separator=",">
+            #{id}
+        </foreach>
         )
     </delete>
     <insert id="insert" parameterType="com.kaishengit.tms.entity.Ticket">
@@ -364,4 +364,12 @@
       customer_id = #{customerId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+    <update id="batchUpdateState">
+        update tickets set ticket_state = #{state} where
+        id in (
+        <foreach collection="ticketList" item="ticket" separator=",">
+            #{ticket.id}
+        </foreach>
+                 )
+    </update>
 </mapper>

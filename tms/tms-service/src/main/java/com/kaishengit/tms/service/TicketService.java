@@ -9,6 +9,7 @@ import com.kaishengit.tms.entity.TicketStore;
 import com.kaishengit.tms.exception.ServiceException;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -108,4 +109,17 @@ public interface TicketService {
      * @return
      */
     Ticket findTicketByTicketNum(String ticketNum);
+
+    /**
+     * 根据年票的状态查询年票列表
+     * @param ticketState 年票状态
+     * @return
+     */
+    List<Ticket> findTicketByState(String ticketState);
+
+    /**
+     * 批量修改年票的状态
+     * @param outTimeTicketList 被修改的年票集合
+     */
+    void batchUpdateTicketState(List<Ticket> outTimeTicketList);
 }

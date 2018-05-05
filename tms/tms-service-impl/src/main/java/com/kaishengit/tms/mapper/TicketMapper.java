@@ -41,4 +41,7 @@ public interface TicketMapper {
                                                  @Param("endNum") String endNum,
                                                  @Param("state") String state);
     void batchDeleteById(@Param("idList") List<Long> idList);
+
+    void batchUpdateState(@Param("ticketList") List<Ticket> outTimeTicketList,
+                          @Param("state") String state);
 }

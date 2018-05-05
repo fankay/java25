@@ -443,4 +443,27 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
         return (ticketList == null || ticketList.isEmpty()) ? null : ticketList.get(0);
     }
+
+    /**
+     * 根据年票的状态查询年票列表
+     *
+     * @param ticketState 年票状态
+     * @return
+     */
+    @Override
+    public List<Ticket> findTicketByState(String ticketState) {
+        TicketExample ticketExample = new TicketExample();
+        ticketExample.createCriteria().andTicketStateEqualTo(ticketState);
+        return ticketMapper.selectByExample(ticketExample);
+    }
+
+    /**
+     * 批量修改年票的状态
+     *
+     * @param outTimeTicketList 被修改的年票集合
+     */
+    @Override
+    public void batchUpdateTicketState(List<Ticket> outTimeTicketList) {
+        ticketMapper.batchUpdateState(outTimeTicketList,Ticket.TICKET_STATE_OUT_DATE);
+    }
 }
