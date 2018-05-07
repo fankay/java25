@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.ProductMapper">
+    
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into product(product_name, price, market_price, place, comment_num, type_id)
+        values (#{productName},#{price},#{marketPrice},#{place},#{commentNum},#{typeId})
+    </insert>
+    <update id="update">
+        update product
+          set
+              product_name = #{productName},price=#{price},market_price=#{marketPrice},place=#{place},type_id=#{typeId}
+          where
+              id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete from product where id = #{id}
+    </delete>
+
+    <select id="findById" resultType="com.kaishengit.entity.Product">
+        select * from  product where id = #{id}
+    </select>
+    <select id="findAll" resultType="com.kaishengit.entity.Product">
+        select * from product order by id desc
+    </select>
+    <select id="findAllWithType" resultMap="productAndTypeMap">
+        SELECT
+            product.*, type_name,
+            parent_id
+        FROM
+            product
+        LEFT JOIN product_type ON product.type_id = product_type.id
+        order by product.id desc
+    </select>
+    <select id="findAllWithTypeByQueryParam" resultMap="productAndTypeMap">
+        SELECT
+            product.*, type_name,
+            parent_id
+        FROM
+            product
+            LEFT JOIN product_type ON product.type_id = product_type.id
+        <where>
+            <if test="productName != null and productName!= ''">
+                product.product_name like concat('%',#{productName},'%')
+            </if>
+            <if test="place != null and place != ''">
+                and product.place = #{place}
+            </if>
+            <if test="minPrice != null and minPrice != 0">
+                and product.price >= #{minPrice}
+            </if>
+            <if test="maxPrice != null and maxPrice != 0">
+                and product.price &lt;= #{maxPrice}
+            </if>
+            <if test="typeId != null and typeId != 0">
+                and product_type.id = #{typeId}
+            </if>
+        </where>
+        order by product.id desc
+    </select>
+    <resultMap id="productAndTypeMap" type="Product">
+        <id column="id" property="id"/>
+        <result column="product_name" property="productName"/>
+        <result column="place" property="place"/>
+        <result column="price" property="price"/>
+        <result column="market_price" property="marketPrice"/>
+        <result column="comment_num" property="commentNum"/>
+        <result column="type_id" property="typeId"/>
+        <association property="productType" javaType="ProductType">
+            <id column="type_id" property="id"/>
+            <result column="type_name" property="typeName"/>
+            <result column="parent_id" property="parentId"/>
+        </association>
+    </resultMap>
+</mapper>
