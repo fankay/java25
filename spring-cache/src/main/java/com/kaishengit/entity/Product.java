@@ -1,8 +1,9 @@
 package com.kaishengit.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Product {
+public class Product implements Serializable {
 
     /**
      * 默认商品评论的数量

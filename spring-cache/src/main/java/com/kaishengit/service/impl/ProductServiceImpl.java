@@ -36,8 +36,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductMapper productMapper;
     @Autowired
     private ProductTypeMapper productTypeMapper;
-    @Autowired
-    private JedisPool jedisPool;
+    //@Autowired
+    //private JedisPool jedisPool;
 
     @Autowired
     private CacheManager cacheManager;

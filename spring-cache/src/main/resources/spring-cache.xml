@@ -6,14 +6,41 @@
     <!-- 1. 开启基于注解的缓存 -->
     <cache:annotation-driven cache-manager="cacheManager"/>
 
+
+    <!-- 2. 配置缓存管理器 -->
+    <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+        <!--将RedisTemplate对象通过构造方法注入-->
+        <constructor-arg name="redisOperations" ref="redisTemplate"/>
+        <!---->
+        <property name="expires">
+            <map>
+                <entry key="products" value="10"></entry>
+            </map>
+        </property>
+    </bean>
+
+
+    <!-- 2. 配置缓存管理器（本地-EhCache）-->
+    <!--<bean id="cacheManagerFactoryBean" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        &lt;!&ndash;ehcache.xml的位置&ndash;&gt;
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+    </bean>
+
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="cacheManagerFactoryBean"/>
+    </bean>
+-->
+
+
+
     <!-- 2. 配置缓存管理器(本地) -->
-    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+    <!--<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
         <property name="caches">
             <list>
                 <bean name="products" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
 
 </beans>
