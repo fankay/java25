@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--0. 开启自动扫描-->
+    <context:component-scan base-package="com.kaishengit"/>
+
+    <!--开启重试机制-->
+    <bean id="redeliveryPolicy" class="org.apache.activemq.RedeliveryPolicy">
+        <!--重试次数-->
+        <property name="maximumRedeliveries" value="3"/>
+        <!--初始重试延迟的时间(毫秒)-->
+        <property name="initialRedeliveryDelay" value="3000"/>
+        <!--每次重试的延迟时间(毫秒)-->
+        <property name="redeliveryDelay" value="3000"/>
+    </bean>
+
+    <!--1. 创建ActiveMQ的连接工厂-->
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+        <!--添加重试机制-->
+        <property name="redeliveryPolicy" ref="redeliveryPolicy"/>
+    </bean>
+
+    <!--2. Spring适配JMS的连接工厂-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="activeMQConnectionFactory"/>
+    </bean>
+
+    <!--3. 配置JMSTemplate-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <!--配置连接工厂-->
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--配置消息默认的发送目的地，非必要配置，在发送消息时也可以指定-->
+        <property name="defaultDestinationName" value="spring-queue"/>
+        <!--签收模式-->
+        <property name="sessionAcknowledgeMode" value="2"/>
+    </bean>
+
+    <!-- 4. 配置监听器和监听器容器-->
+    <bean id="springQueueListener3" class="com.kaishengit.jms.consumer.SpringQueueListener3"/>
+
+    <jms:listener-container acknowledge="client" connection-factory="connectionFactory">
+        <jms:listener destination="spring-queue" ref="springQueueListener3"/>
+    </jms:listener-container>
+
+
+
+
+
+</beans>

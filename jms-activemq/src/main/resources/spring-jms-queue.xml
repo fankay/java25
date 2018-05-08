@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--1. 创建ActiveMQ的连接工厂-->
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+    </bean>
+
+    <!--2. Spring适配JMS的连接工厂-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="activeMQConnectionFactory"/>
+    </bean>
+
+    <!--3. 配置JMSTemplate-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <!--配置连接工厂-->
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--配置消息默认的发送目的地，非必要配置，在发送消息时也可以指定-->
+        <property name="defaultDestinationName" value="spring-queue"/>
+    </bean>
+
+    <!-- 4. 配置监听器和监听器容器-->
+    <bean id="springQueueListener" class="com.kaishengit.jms.consumer.SpringQueueListener"/>
+
+    <!--监听器容器-->
+    <bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destinationName" value="spring-queue"/>
+        <property name="messageListener" ref="springQueueListener"/>
+    </bean>
+
+
+
+</beans>

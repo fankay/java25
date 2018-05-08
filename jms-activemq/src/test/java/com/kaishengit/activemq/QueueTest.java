@@ -17,7 +17,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 import java.io.IOException;
 
-public class HelloTest {
+public class QueueTest {
 
     @Test
     public void createMessage() {
@@ -40,19 +40,28 @@ public class HelloTest {
             //2. 创建连接 并 开启
             connection = connectionFactory.createConnection();
             connection.start();
-            //3. 创建Session(是否需要事务，消息的签收模式：AUTO_ACKNOWLEDGE自动签收 CLIENT_ACKNOWLEDGE客户端签收)
-            session = connection.createSession(true, Session.CLIENT_ACKNOWLEDGE);
-            //4. 创建消息目的地
-            Destination destination = session.createQueue("hello-Queue");
-            //5. 创建生产者
-            producer = session.createProducer(destination);
-            // 使用持久模式
-            producer.setDeliveryMode(DeliveryMode.PERSISTENT);
-            //6. 发送消息
-            TextMessage textMessage = session.createTextMessage("Hello,Message-13");
-            producer.send(textMessage);
-            //提交事务
-            session.commit();
+
+            int i = 0;
+
+            while (true) {
+                //3. 创建Session(是否需要事务，消息的签收模式：AUTO_ACKNOWLEDGE自动签收 CLIENT_ACKNOWLEDGE客户端签收)
+                session = connection.createSession(true, Session.CLIENT_ACKNOWLEDGE);
+                //4. 创建消息目的地
+                Destination destination = session.createQueue("hello-Queue");
+                //5. 创建生产者
+                producer = session.createProducer(destination);
+                // 使用持久模式
+                producer.setDeliveryMode(DeliveryMode.PERSISTENT);
+                //6. 发送消息
+                TextMessage textMessage = session.createTextMessage("Hello,Message-" + i);
+                producer.send(textMessage);
+                //提交事务
+                session.commit();
+
+                i++;
+                Thread.sleep(2000);
+
+            }
         } catch (JMSException ex) {
             ex.printStackTrace();
             try {
@@ -62,6 +71,8 @@ public class HelloTest {
             } catch (JMSException e) {
                 e.printStackTrace();
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             //7. 释放资源
             close(session,connection,producer);
@@ -98,15 +109,11 @@ public class HelloTest {
                 TextMessage textMessage = (TextMessage) message;
                 try {
                     String text = textMessage.getText();
-                    if("Hello,Message-13".equals(text)) {
-                        throw new RuntimeException("签收消息异常.............");
-                    }
                     System.out.println("Message: -----> " + text);
                     //手动签收消息
                     message.acknowledge();
                 } catch (Exception e) {
                     e.printStackTrace();
-
                     try {
                         //触发重试机制
                         session.recover();
