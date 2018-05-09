@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}" href="../../static/css/style.css">
+    <script th:inline="javascript">
+        [# th:if="${age > 20}"]
+            var id = [[${id}]];
+            var message = [[${message}]];
+            console.log(message);
+        [/]
+    </script>
+    <script th:src="@{'/webjars/jquery/jquery.min.js'}"></script>
+    <script>
+        $(function () {
+            console.log($);
+        })
+    </script>
+</head>
+<body>
+    <div id="home-header" th:insert="~{common::header('haha')}"></div>
+    <div id="home-header2" th:replace="common::header(title='hehe')"></div>
+    <div id="home-header3" th:include="~{common::header('你好')}"></div>
+
+    <h3 class="text-danger">服务器给的数据是：[[${message}]]</h3>
+
+    <input type="text" th:value="${message}">
+    <a href="javascript:;" th:data-id="${message}" th:data-name="${message}">删除</a>
+    <a href="javascript:;" th:attr="data-id=${message},data-name=${message}">删除</a>
+    <a th:href="@{/user/{id}/edit(id=${id})}">修改</a>
+    <a th:href="@{/user/edit(id=${id},classId=1002)}">修改</a>
+
+    <div th:if="${age >= 20}">
+        <h3>Hello,Age</h3>
+        <h3>---------------------------------------</h3>
+    </div>
+
+    <ul>
+        <li th:each="n,it : ${names}" th:text="${n + '->' + it.index + ' -> ' + it.count}"></li>
+    </ul>
+    <div th:insert="~{common::footer}"></div>
+</body>
+</html>

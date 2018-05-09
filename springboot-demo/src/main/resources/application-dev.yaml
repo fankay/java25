@@ -1,6 +1,0 @@
-debug: false
-server:
-  port: 7777
-  context-path: /
-  session:
-    timeout: 3600

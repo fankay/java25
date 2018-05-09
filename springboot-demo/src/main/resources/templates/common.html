@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div id="common-header" th:fragment="header(title)">
+        <h3>TMS管理系统 - [[${title}]]</h3>
+    </div>
+
+    <div th:fragment="footer">
+        <h3>@kaishengit</h3>
+    </div>
+
+</body>
+</html>
