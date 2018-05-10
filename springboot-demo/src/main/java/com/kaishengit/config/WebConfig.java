@@ -18,7 +18,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * 添加过滤器(Servlet)
      * @return
      */
-    @Bean
+    //@Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new MyFilter());
@@ -30,7 +30,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * 添加一个监听器
      * @return
      */
-    @Bean
+    //@Bean
     public ServletListenerRegistrationBean servletListenerRegistrationBean() {
         ServletListenerRegistrationBean registrationBean = new ServletListenerRegistrationBean();
         registrationBean.setListener(new MyServletContextListener());
@@ -41,9 +41,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * 添加拦截器
      * @param registry
      */
-    @Override
+    /*@Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new MyInterceptor())
                 .addPathPatterns("/**");
-    }
+    }*/
 }
