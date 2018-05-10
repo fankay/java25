@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      th:with="menu='home'">
+<head>
+    <title>首页</title>
+    <style>
+        #content {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" layout:fragment="content">
+        这是首页
+        <div class="">
+            haha
+        </div>
+    </div>
+    <script layout:fragment="js">
+        $(function () {
+           alert("hehe");
+        })
+    </script>
+</body>
+</html>

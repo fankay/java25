@@ -24,6 +24,11 @@
     <div id="home-header3" th:include="~{common::header('你好')}"></div>
 
     <h3 class="text-danger">服务器给的数据是：[[${message}]]</h3>
+    <h3 class="text-danger">服务器给的数据是：[(${message})]</h3>
+    <h3 th:inline="none">A double array looks like this: [[1, 2, 3], [4, 5]]!</h3>
+
+    <h3>Money: <span th:text="${#numbers.formatInteger(money,0,'COMMA')}"></span></h3>
+
 
     <input type="text" th:value="${message}">
     <a href="javascript:;" th:data-id="${message}" th:data-name="${message}">删除</a>
@@ -31,12 +36,13 @@
     <a th:href="@{/user/{id}/edit(id=${id})}">修改</a>
     <a th:href="@{/user/edit(id=${id},classId=1002)}">修改</a>
 
-    <div th:if="${age >= 20}">
+    <th:block th:if="${age >= 20}">
         <h3>Hello,Age</h3>
         <h3>---------------------------------------</h3>
-    </div>
+    </th:block>
 
     <ul>
+        <li th:if="${#lists.isEmpty(names)}">暂无数据</li>
         <li th:each="n,it : ${names}" th:text="${n + '->' + it.index + ' -> ' + it.count}"></li>
     </ul>
     <div th:insert="~{common::footer}"></div>

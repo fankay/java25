@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">TMS系统</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <h1>TMS 售票系统 - v2 - <span th:text="${menu}"></span></h1>
+    <div layout:fragment="content"></div>
+    <h5>@kaishengit 2018</h5>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script layout:fragment="js"></script>
+</body>
+</html>

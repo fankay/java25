@@ -1,5 +1,7 @@
 package com.kaishengit.controller;
 
+import com.kaishengit.dao.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +14,21 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    private UserDao userDao;
+
     @GetMapping
     public String home(Model model) {
 
-        List<String> names = Arrays.asList("tom","jack","zhangsan");
+        userDao.save("SPringBoot","USA","123123");
 
-        model.addAttribute("message","你好,SpringBoot!");
-        model.addAttribute("age",11);
+        List<String> names = Arrays.asList();
+
+        model.addAttribute("message","<em>你好,SpringBoot!</em>");
+        model.addAttribute("age",23);
         model.addAttribute("names",names);
         model.addAttribute("id",1001);
-        return "user/home";
+        model.addAttribute("money",123123123123123L);
+        return "user/index";
     }
 }
