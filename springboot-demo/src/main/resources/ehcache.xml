@@ -1,0 +1,6 @@
+<ehcache>
+    <cache name="movie"
+           maxEntriesLocalHeap="200"
+           timeToLiveSeconds="10">
+    </cache>
+</ehcache>

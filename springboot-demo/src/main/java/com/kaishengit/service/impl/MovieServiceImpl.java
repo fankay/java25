@@ -9,9 +9,7 @@ import com.kaishengit.entity.Movie;
 import com.kaishengit.mapper.MovieMapper;
 import com.kaishengit.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,14 +24,16 @@ public class MovieServiceImpl implements MovieService {
     private RedisCacheHelper redisCacheHelper;
 
     @Override
+    @Cacheable("movie")
     public Movie findById(Integer id) {
-        String movieKey = "movie:" + id;
+        return movieMapper.findById(id);
+        /*String movieKey = "movie:" + id;
         Movie movie = (Movie) redisCacheHelper.get(movieKey,Movie.class);
         if(movie == null) {
             movie = movieMapper.findById(id);
             redisCacheHelper.set(movieKey,movie,10);
         }
-        return movie;
+        return movie;*/
     }
 
     @Override
