@@ -1,5 +1,9 @@
 package com.kaishengit.entity;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -121,5 +125,17 @@ public class Product implements Serializable {
 
     public void setProductDesc(String productDesc) {
         this.productDesc = productDesc;
+    }
+
+    public boolean isStart() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+        DateTime startTime = dateTimeFormatter.parseDateTime(getStartTime());
+        return startTime.isBeforeNow();
+    }
+
+    public boolean isEnd() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+        DateTime endTime = dateTimeFormatter.parseDateTime(getEndTime());
+        return  endTime.isBeforeNow();
     }
 }

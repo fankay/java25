@@ -321,4 +321,7 @@
       end_time = #{endTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="buyProduct">
+      update seckill_product set product_inventory=#{inventory} where id = #{id} and product_inventory > 0
+    </update>
 </mapper>

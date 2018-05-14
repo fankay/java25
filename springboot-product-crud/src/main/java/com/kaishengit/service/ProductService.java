@@ -15,4 +15,6 @@ public interface ProductService {
     void editProduct(Product product);
 
     void deleteById(Integer id);
+
+    void buyProduct(Integer id) throws RuntimeException;
 }

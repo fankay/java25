@@ -36,4 +36,8 @@ public interface ProductMapper {
     int updateByPrimaryKeyWithBLOBs(Product record);
 
     int updateByPrimaryKey(Product record);
+
+    void buyProduct(
+            @Param("id") Integer id,
+            @Param("inventory") Integer inventory);
 }

@@ -22,7 +22,9 @@
             </thead>
             <tbody>
                 <tr th:each="item : ${page.list}">
-                    <td th:text="${item.productName}"></td>
+                    <td>
+                        <a th:href="@{/product/{id}(id=${item.id})}" th:text="${item.productName}"></a>
+                    </td>
                     <td th:text="${item.productPrice}"></td>
                     <td th:text="${item.productMarketPrice}"></td>
                     <td th:text="${item.startTime}"></td>

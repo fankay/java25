@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        .underline {
+            text-decoration: line-through;
+            color: #ccc;
+        }
+    </style>
 </head>
 <body>
-$END$
+
+    <div class="container">
+
+        <h3>[[${product.productName}]] <small th:text="${product.productTitle}"></small></h3>
+        <hr>
+        <p>
+            销售价格: <span th:text="${product.productPrice}"></span>
+            市场价格： <span class="underline" th:text="${product.productMarketPrice}"></span>
+        </p>
+        <p>
+            [(${product.productDesc})]
+        </p>
+        <button class="btn btn-default disabled" th:if="${not product.start}">未开始 <span id="countDown"></span></button>
+        <button class="btn btn-default disabled" th:if="${product.end}">已结束</button>
+        <button class="btn btn-default disabled" th:if="${product.productInventory == 0}">已售罄</button>
+        <button id="buyButton2" class="btn btn-danger" th:if="${product.start and not product.end and product.productInventory != 0}">抢购</button>
+        <button id="buyButton" class="btn btn-danger">抢购</button>
+
+
+    </div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            var id = [[${product.id}]];
+            var startTime = [[${product.startTime}]];
+            $("#countDown").countdown(startTime,function(event){
+                $(this).text(
+                    event.strftime('%D 天 %H小时%M分%S秒')
+                );
+            });
+
+            $("#buyButton").click(function () {
+                $.get("/product/buy/"+id).done(function(result){
+                    if(result.status == "success") {
+                        alert("抢购成功");
+                    } else {
+                        alert(result.message);
+                    }
+                }).error(function () {
+                    alert("服务器异常");
+                });
+            });
+        })
+    </script>
 </body>
 </html>
