@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql:///mydb?useSSL=false
+    username: root
+    password: rootroot
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.kaishengit.entity
+  mapper-locations: classpath:mapper/*.xml
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+logging:
+  level:
+    com:
+      kaishengit:
+        mapper: debug

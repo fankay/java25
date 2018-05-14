@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h3>Product Crud demo</h3>
+        <a href="/product/new" class="btn btn-success">新增商品</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>商品名称</th>
+                    <th>商品价格</th>
+                    <th>市场价格</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${page.list}">
+                    <td th:text="${item.productName}"></td>
+                    <td th:text="${item.productPrice}"></td>
+                    <td th:text="${item.productMarketPrice}"></td>
+                    <td th:text="${item.startTime}"></td>
+                    <td th:text="${item.endTime}"></td>
+                    <td>
+                        <a th:href="@{/product/{id}/edit(id=${item.id})}">编辑</a>
+                        <a th:href="@{/product/{id}/del(id=${item.id})}">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+</body>
+</html>
