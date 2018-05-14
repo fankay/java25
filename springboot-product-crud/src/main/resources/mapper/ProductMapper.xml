@@ -137,7 +137,7 @@
       #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{productDesc,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.kaishengit.entity.Product">
+  <insert id="insertSelective" parameterType="com.kaishengit.entity.Product" useGeneratedKeys="true" keyProperty="id">
     insert into seckill_product
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

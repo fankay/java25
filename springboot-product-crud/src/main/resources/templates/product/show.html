@@ -27,10 +27,7 @@
         <button class="btn btn-default disabled" th:if="${not product.start}">未开始 <span id="countDown"></span></button>
         <button class="btn btn-default disabled" th:if="${product.end}">已结束</button>
         <button class="btn btn-default disabled" th:if="${product.productInventory == 0}">已售罄</button>
-        <button id="buyButton2" class="btn btn-danger" th:if="${product.start and not product.end and product.productInventory != 0}">抢购</button>
-        <button id="buyButton" class="btn btn-danger">抢购</button>
-
-
+        <button id="buyButton" class="btn btn-danger" th:if="${product.start and not product.end and product.productInventory != 0}">抢购</button>
     </div>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery.countdown.min.js"></script>
