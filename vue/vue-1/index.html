@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Vue.js Demo</h3>
+    <div id="app">
+        <input type="text" @keyup.enter="enterNumber">
+        <h5 v-once>{{message}}</h5>
+        <h5>{{productContent}}</h5>
+        <h5 :id="id">id:{{id + 1}}</h5>
+        <h5 v-html="productContent"></h5>
+        <h5 v-if="flag">nihao</h5>
+        <ul>
+            <li v-for="item in names">{{item}}</li>
+        </ul>
+        <button @click="btnClick('xxxx')">ClickMe</button>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                id:1001,
+                message:"hello,vue.js",
+                flag:false,
+                productContent:"<span style='color:red'>这是一个好的商品</span>",
+                names:[]
+            },
+            methods:{
+                btnClick:function(message){
+                    //alert("Hello,"+message);
+                    this.message = "你好，Vue";     
+                },
+                enterNumber:function(){
+                    console.log("88888");
+                }
+            },
+            mounted:function(){
+                this.names = ["aa","bb","cc"]
+            }
+        });
+
+        vm.$watch("message",function(newValue,oldValue){
+            console.log(oldValue + " -> " + newValue)
+        }); 
+    </script>
+
+</body>
+</html>
