@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        <p class="user" :class="classObject">共{{users.length}}人,shanghai -> {{userForShanghai}} beijing->{{beijingUsers()}}</p>
+        <h3>{{fullName}}</h3>
+        <button @click="changeNameFrist">ChangeFirstName</button>
+        <button @click="changeNameLast">ChangeLastName</button>
+        <button @click="addItem">add item</button>
+        <ul>
+            <li v-for="(user,index) in users" :key="user.id">{{user.name}} -> {{index}}</li>
+        </ul>
+        <p v-if="flag">Hello-1</p>
+        <p v-else>Hello-2</p>
+
+        <template v-if="flag">
+            <p>a</p>
+            <p>b</p>
+        </template>
+
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <input placeholder="Enter your username" key="username">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter your email address" key="email">
+        </template>
+        <button @click="changeLoginType">toggle login type</button>
+        <p v-show="flag">show show show</p>
+    </div>
+
+
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                users:[
+                    {id:1,name:"tom",age:23,address:"beijing"},
+                    {id:2,name:"jack",age:24,address:"shanghai"},
+                    {id:3,name:"Rose",age:25,address:"shanghai"},
+                ],
+                firstName:"Tom",
+                lastName:"jackson",
+                classObject:{
+                    active:true,
+                    'text-danger':true
+                },
+                flag:false,
+                loginType:"username"
+            },
+            methods:{
+                beijingUsers:function(){
+                    return 1;
+                },
+                changeNameFrist:function(){
+                    this.firstName = "Alex";
+                },
+                changeNameLast:function(){
+                    this.lastName = "Jeccy";
+                },
+                changeLoginType:function(){
+                    this.loginType = "email";
+                },
+                addItem:function(){
+                    var user = {id:4,name:"张三",age:23,address:"beijing"};
+                    this.users.push(user);
+                }
+            },
+            computed:{
+                userForShanghai:function(){
+                    var count = 0;
+                    for(var i = 0;i < this.users.length;i++) {
+                        if(this.users[i].address == "shanghai") {
+                            count++;
+                        }
+                    }
+                    return count;
+                },
+                fullName:function(){
+                    return this.firstName + " " + this.lastName;
+                }
+            },
+            watch:{
+                /*firstName:function(newName,oldName) {
+                    console.log(newName + " -> " + oldName);
+                    this.fullName = newName + " " + this.lastName;
+                },
+                lastName:function(newName,oldName) {
+                    console.log(newName + " -> " + oldName);
+                    this.fullName = this.firstName + " " + newName;
+                }*/
+            }
+
+        })
+    
+    </script>
+
+
+</body>
+</html>

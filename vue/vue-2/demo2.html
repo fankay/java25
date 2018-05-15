@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        <form>
+            <input type="text" v-model="person.name" placeholder="name"> <br>
+            <input type="text" v-model="person.address" placeholder="address"> <br>
+            <input type="text" v-model="person.age" placeholder="age"><br>
+            <button type="button" @click="showPerson">Save</button>
+        </form>
+        <hr>
+
+        <input type="text" v-model="message">
+        <textarea v-model="message"></textarea>
+        <h4>Message: {{message}}</h4>
+        <input type="checkbox" value="tom1" v-model="checkNames">
+        <input type="checkbox" value="tom2" v-model="checkNames">
+        <p>{{checkNames}}</p>
+        <select v-model="selectValue" multiple>
+            <option value=""></option>
+            <option value="BMW">BMW</option>
+            <option value="AUDI">Audi</option>
+        </select>
+        <p>{{selectValue}}</p>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                message:"this is default message",
+                checkNames:[],
+                selectValue:[],
+                person:{}
+            },
+            methods:{
+                showPerson:function(){
+                    //ajax
+                    console.log(this.person);
+                }
+            },
+            mounted:function(){
+                //ajax
+                this.person = {name:"alex",age:23,address:"shanghai"};
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h3>Vue.js Todo List</h3>
+        <div id="app">
+            <input type="text" class="form-control" v-model="title" @keyup.enter="newTodo">
+            <h4>未完成的任务:</h4>
+            <ul class="list-group">
+                <li class="list-group-item" v-if="todos.length == 0">暂无数据</li>
+                <li class="list-group-item" v-for="todo in unDoneTodoList">
+                    {{todo.title}}
+                    <span class="pull-right">
+                        <a href="javascript:;" @click="changeTodoState(todo,true)">完成</a>
+                    </span>
+                </li>
+            </ul>
+            <h4>已完成的任务:{{doneTodoList.length}}</h4>
+            <ul class="list-group">
+                <li class="list-group-item" v-for="todo in doneTodoList">
+                    {{todo.title}}
+                    <span class="pull-right">
+                        <a href="javascript:;" @click="changeTodoState(todo,false)">撤销</a>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                todos:[],
+                title:""
+            },
+            methods:{
+                newTodo:function(){
+                    var todo = {title:this.title,done:false};
+                    this.todos.push(todo);
+                    this.title = "";
+                },
+                changeTodoState:function(todo,state) {
+                    todo.done = state;
+                }
+            },
+            computed:{
+                unDoneTodoList:function(){
+                    return this.todos.filter(function(todo){
+                        return !todo.done;
+                    });
+                },
+                doneTodoList:function(){
+                    return this.todos.filter(function(todo){
+                        return todo.done;
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+</html>
