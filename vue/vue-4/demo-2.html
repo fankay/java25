@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        <h3>电影的名称：{{movie.name}}</h3>
+    </div>
+
+
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                movie:{}
+            },
+            mounted:function(){
+                //var that = this;
+
+                var url = "http://localhost:9090/movie/1";
+                //使用ES6的箭头函数可以解决this的上下文问题
+                axios.get(url).then(response=>{
+                    this.movie = response.data;
+                }).catch(error=>{
+                    alert("系统异常:" + error);
+                });
+
+
+                /*axios.get(url).then(function(response){
+                    //!!response不是服务器返回的结果！！
+                    console.log(response.data.name);
+                    
+                    that.movie = response.data;
+                }).catch(function(error){
+                    alert("系统异常:" + error);
+                });*/
+            }
+        })
+    </script>
+
+</body>
+</html>
