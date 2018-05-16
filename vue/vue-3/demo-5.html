@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        #app {
+            width: 800px;
+            margin: 0px auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <el-button @click="clickMe" type="primary">主要按钮</el-button>
+        <el-table :data="tableData" style="width: 100%" height="250">
+            <el-table-column prop="date" label="日期" width="180">
+            </el-table-column>
+            <el-table-column prop="name" label="姓名" width="180">
+            </el-table-column>
+            <el-table-column prop="address" label="地址">
+            </el-table-column>
+        </el-table>
+    </div>
+
+
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data:{
+                tableData:[
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                    {date:"2019-01-01",name:"Alex",address:"美国"},
+                ]
+            },
+            methods: {
+                clickMe: function () {
+                    this.$message("heheh");
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

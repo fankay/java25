@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        <h3>动态组件示例</h3>
+        <a href="javascript:;" @click="changePage('home')">Home</a>
+        <a href="javascript:;" @click="changePage('about')">About</a>
+        <a href="javascript:;" @click="changePage('news')">News</a>
+        <keep-alive>
+            <component :is="currentView"></component>
+        </keep-alive>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                currentView:"home"
+            },
+            components:{
+                home:{
+                    template:"<h3>HomePage</h3>"
+                },
+                about:{
+                    template:"<h3>aboutPage</h3>"
+                },
+                news:{
+                    template:"<h3>newsPage</h3>"
+                },
+            },
+            methods:{
+                changePage:function(pageName){
+                    this.currentView = pageName;
+                }
+            }
+        });
+    
+    </script>
+
+</body>
+</html>

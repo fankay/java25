@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h3>组件demo</h3>
+        <topbar>
+            <p slot="s1">hello,hello</p>
+            <h5 slot="s2">h5h5h5</h5>
+        </topbar>
+        <h3>Total:{{total}}</h3>
+        <todo-item @abc="totalPlus"></todo-item>
+        <todo-item @abc="totalPlus"></todo-item>
+        <super-button @click="sendMessage"></super-button>
+        <super-button @click="sendRocket"></super-button>
+    </div>
+    
+
+    <script src="js/vue.js"></script>
+    <script>
+
+        Vue.component("topbar",{
+            template:"<div><h3>h3h3h3</h3><slot name='s1'>empty</slot><slot name='s2'/></div>"
+        });
+       
+       Vue.component("superButton",{
+           template:"<button @click='clickMe'>SuperButton</button>",
+           methods:{
+               clickMe:function(){
+                   this.$emit("click");
+               }
+           }
+       })
+
+       Vue.component("todoItem",{
+           template:"<div>{{counter}}<button @click='incrementCounter'>Click Me</button></div>",
+           data:function(){
+               return {
+                   counter:0
+               }
+           },
+           methods:{
+                incrementCounter:function(){
+                    this.counter++;   
+                    this.$emit('abc');
+                }
+           }
+       })
+       
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                helloMessage:"Hello,hello",
+                total:0
+            },
+            methods:{
+                totalPlus:function(){
+                    this.total++;
+                },
+                sendMessage:function(){
+                    alert("sendMessage")
+                },
+                sendRocket:function(){
+                    alert("sendRocket")
+                }
+            }
+        })
+
+
+    </script>
+</body>
+</html>

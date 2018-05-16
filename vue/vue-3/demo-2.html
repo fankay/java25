@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h3>组件demo</h3>
+        <todo message="hehehehe"></todo>
+        <todo :message="helloMessage"></todo>
+        <counter class="xyz" :init-counter="count"></counter>
+    </div>
+    
+    <script type="text/x-template" id="todoTemplate">
+        <div class='todo'>{{message}}</div>
+    </script>
+
+    <script src="js/vue.js"></script>
+    <script>
+        //全局注册组件
+        Vue.component("todo",{
+            props:["message"],
+            template:"#todoTemplate"
+        });
+
+        Vue.component("counter",{
+            props:{
+                initCounter:{
+                    type:Number,
+                    required:true
+                }
+            },
+            template:"<div class='abc'>{{count}}<button @click='countPlus'>btn</button></div>",
+            data:function(){
+                return {
+                    count: this.initCounter
+                }
+            },
+            methods:{
+                countPlus:function(){
+                    this.count++;
+                }
+            }
+        })
+       
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                helloMessage:"Hello,hello",
+                count:100
+            }
+        })
+
+
+    </script>
+</body>
+</html>
