@@ -43,7 +43,7 @@
             background
             layout="prev, pager, next,total"
             :total="total"
-            :current-page="currentPage"
+            :current-page="Number(currentPage)"
             @current-change="pageData">
         </el-pagination>
     </div>
@@ -72,7 +72,8 @@ export default {
                     this.$message.success("删除成功");
                     //this.$router.go(0);
                     //将数组中的内容删除
-                    this.movies.splice(index,1);
+                    //this.movies.splice(index,1);
+                    this.loadData(this.currentPage);
                 }
               }).catch(error=>{
                 this.$message.error("系统提示:" + error.message);
