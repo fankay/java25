@@ -1,6 +1,7 @@
 <template>
     <div id="home">
         <el-button type="primary" @click="addMovie">新增电影</el-button>
+        <el-button @click="logout">安全退出</el-button>
         <el-table
         :data="movies"
         style="width: 100%">
@@ -95,6 +96,11 @@ export default {
           }).catch(error => {
             this.$message.error("系统提示:" + error.message);
           });
+      },
+      logout:function(){
+          localStorage.removeItem("jwtToken");
+          this.$message("你已安全退出");
+          this.$router.push("/");
       }
   },
   mounted:function(){

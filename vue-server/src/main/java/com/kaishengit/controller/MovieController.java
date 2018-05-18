@@ -26,7 +26,6 @@ public class MovieController {
 
     @GetMapping
     public ResponseBean list(@RequestParam(required = false,name = "p",defaultValue = "1")Integer pageNum) {
-        //List<Movie> movieList = movieService.findAll();
         PageInfo<Movie> pageInfo = movieService.findByPageNum(pageNum);
         return ResponseBean.success(pageInfo);
     }

@@ -1,0 +1,13 @@
+POST http://localhost:9090/login
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"userName":"tom","password":"123123"}
+
+###
+GET http://localhost:9090/movie
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJleHAiOjE1MjkyMDcxMzksInVzZXJJZCI6MX0.zSrCKJvxK6NvMV3_paoUjbm9GwYoahPt_hTJwxjVEoWlVR_V3qNaDzSU5LMzcmyF
+
+###
+
