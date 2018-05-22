@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "MOVIE-SERVICE-PROVIDER",fallback = MovieServiceClientFallback.class)
+@FeignClient(name = "API-GATEWAY")
 public interface MovieServiceClient {
 
-    @GetMapping("/movie/{id}")
+    @GetMapping("/api/v1/movie/{id}?accessToken=1001")
     String getMovieName(@PathVariable(name = "id") Integer id);
 
-    @PostMapping("/movie/new")
+    @PostMapping("/api/v1//movie/new")
     String saveNewMovie(@RequestParam(name = "movieName") String movieName,
                         @RequestParam(name = "author") String author);
 }
