@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("MOVIE-SERVICE-PROVIDER")
-public interface MoviceServiceClient {
+@FeignClient(name = "MOVIE-SERVICE-PROVIDER",fallback = MovieServiceClientFallback.class)
+public interface MovieServiceClient {
 
     @GetMapping("/movie/{id}")
     String getMovieName(@PathVariable(name = "id") Integer id);

@@ -1,6 +1,7 @@
 package com.kaishengit.controller;
 
-import com.kaishengit.client.MoviceServiceClient;
+import com.kaishengit.client.MovieServiceClient;
+import com.kaishengit.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -15,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 public class ShopController {
 
 
+    /*@Autowired
+    private MovieService movieService;*/
 
     /*@Autowired
     private RestTemplate restTemplate;*/
@@ -23,11 +26,12 @@ public class ShopController {
     private LoadBalancerClient loadBalancerClient;*/
 
     @Autowired
-    private MoviceServiceClient moviceServiceClient;
+    private MovieServiceClient movieServiceClient;
 
     @GetMapping("/buy/movie/{id}")
     public String buyMovie(@PathVariable Integer id) {
-        return moviceServiceClient.getMovieName(id);
+        //return movieService.getMovieNameById(id);
+        return movieServiceClient.getMovieName(id);
 
         /*String url = "http://MOVIE-SERVICE-PROVIDER/movie/{1}";
         return restTemplate.getForObject(url,String.class,id);*/
@@ -44,7 +48,7 @@ public class ShopController {
 
     @GetMapping("/movie/save")
     public String save() {
-        return moviceServiceClient.saveNewMovie("Her","toms");
+        return movieServiceClient.saveNewMovie("Her","toms");
     }
 
 }
